@@ -22,8 +22,7 @@ constexpr double kGColumnRadius = 65;
 constexpr double kFColumnRadius = 70;
 constexpr double kCapsColumnRadius = 60;
 
-// Rotates a key about the x axis until it has traveled the direct distance (not
-// on the arc).
+// Rotates a key about the x axis until it has traveled the direct distance (not on the arc).
 Key GetRotatedKey(double radius, bool up);
 
 Shape ConnectMainKeys(const std::vector<std::vector<Key*>>& key_grid);
@@ -38,8 +37,7 @@ std::vector<Key*> GetColumn(const std::vector<std::vector<Key*>>& key_grid, int 
 }
 
 int main() {
-  // This is the parent of all keys. If you want to tilt the entire keyboard
-  // changes this.
+  // This is the parent of all keys. If you want to tilt the entire keyboard changes this.
   Key key_origin;
   key_origin.Configure([&](Key& k) { k.SetPosition(0, 0, 10); });
 
@@ -435,20 +433,12 @@ int main() {
   Shape wall_connector = Cube(2, 2, 4).TranslateZ(-2);
   // The bottom left corner is a little messy. Add another point to try and
   // clean it up.
-  TransformList extra_tilda_wall_point = key_shift.GetBottomRight(wall_connector_offset);
-  {
-    Transform& t = extra_tilda_wall_point.AddTransformFront();
-    t.x = 2;
-    t.y = 0;
-  }
+  TransformList extra_tilda_wall_point =
+      key_shift.GetBottomRight(wall_connector_offset).TranslateFront(2, 0, 0);
 
   // Also messy where main meets thumb
-  TransformList extra_thumb_top_wall_point = thumb_ctrl.GetTopLeft(wall_connector_offset);
-  {
-    Transform& t = extra_thumb_top_wall_point.AddTransformFront();
-    t.x = -6;
-    t.z = -4;
-  }
+  TransformList extra_thumb_top_wall_point =
+      thumb_ctrl.GetTopLeft(wall_connector_offset).TranslateFront(-6, 0, -4);
 
   std::vector<TransformList> wall_points = {
       key_shift.GetBottomRight(wall_connector_offset),
@@ -542,17 +532,8 @@ int main() {
                        thumb_delete.GetTopLeft(wall_connector_offset),
                        wall_connector));
   {
-    TransformList b_point = key_b.GetBottomRight();
-    Transform& b_t = b_point.AddTransformFront();
-    b_t.x = -2;
-    b_t.z = -4;
-    b_t.y = 1;
-
-    TransformList a_point = key_right_arrow.GetTopRight(-1);
-    Transform& a_t = a_point.AddTransformFront();
-    a_t.x = 4;
-    a_t.y = 2.5;
-
+    TransformList b_point = key_b.GetBottomRight().TranslateFront(-2, 1, -4);
+    TransformList a_point = key_right_arrow.GetTopRight(-1).TranslateFront(4, 2.5, 0);
     shapes.push_back(Hull(thumb_delete.GetTopLeft(wall_connector_offset).Apply(wall_connector),
                           b_point.Apply(wall_connector),
                           a_point.Apply(wall_connector),
@@ -561,11 +542,8 @@ int main() {
   }
 
   {
-    TransformList extra_thumb_wall_point = key_right_arrow.GetBottomRight(wall_connector_offset);
-    Transform& t = extra_thumb_wall_point.AddTransformFront();
-    t.x = -.5;
-    t.y = 1;
-    t.z = -3;
+    TransformList extra_thumb_wall_point =
+        key_right_arrow.GetBottomRight(wall_connector_offset).TranslateFront(-.5, 1, -3);
     shapes.push_back(
         Hull(thumb.GetBottomLeft(wall_connector_offset).Apply(wall_connector),
              extra_thumb_wall_point.Apply(wall_connector),
