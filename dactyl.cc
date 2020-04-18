@@ -1,7 +1,11 @@
 #include <string>
 #include <vector>
 
-#include "util.h"
+#include "scad.h"
+#include <glm/glm.hpp>
+#include "key.h"
+#include "scad.h"
+#include "transform.h"
 
 using namespace scad;
 
@@ -325,12 +329,20 @@ int main() {
   };
   // clang-format on
 
+  std::vector<Shape> test_shapes;
+  std::vector<Key*> test_keys = {&key_5, &key_4};
+  for (Key* key : test_keys) {
+    key->add_side_nub = false;
+    key->extra_z = 4;
+    test_shapes.push_back(key->GetSwitch());
+  }
+  UnionAll(test_shapes).WriteToFile("test.scad");
+
   //
   // Start connecting the keys and building the walls.
   //
 
-  std::vector<Key*> all_keys;
-  PushBackAll(&all_keys, thumb_keys);
+  std::vector<Key*> all_keys = thumb_keys;
   for (auto keys : key_grid) {
     for (Key* key : keys) {
       if (key != nullptr) {
@@ -407,7 +419,6 @@ int main() {
 
   std::vector<Shape> shapes;
   for (Key* key : all_keys) {
-    key->add_side_nub = false;
     key->extra_z += 2;
     shapes.push_back(key->GetSwitch());
   }
