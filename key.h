@@ -55,19 +55,21 @@ struct Key {
     t().z = z;
   }
 
-  // A name for debugging purposes. Can also be used to determine the names for
-  // key specific output files.
+  // A name for debugging purposes. Can also be used to determine the names for key specific output
+  // files.
   std::string name;
 
   TransformList parent_transforms;
   TransformList local_transforms;
 
+  // These add extra width to the switch and offset the locations of the corners (GetTopLeft etc).
   double extra_width_top = 0;
   double extra_width_bottom = 0;
   double extra_width_left = 0;
   double extra_width_right = 0;
-  // This makes the switch taller (moves the connectors down and increases wall height) while
-  // leaving the top plate at the same point.
+
+  // This makes the switch taller (moves the corner connectors down and increases wall height) while
+  // leaving the top plate of the switch at the same point.
   double extra_z = 0;
 
   bool add_side_nub = true;
@@ -97,8 +99,8 @@ struct Key {
 
   Shape GetSwitch() const;
   Shape GetInverseSwitch() const;
-  // Used to subtract and clear space in the key cap's path. Vertical length
-  // can be explicitly passed to support cutting out for long keys like enter on the kinesis.
+  // Used to subtract and clear space in the key cap's path. Vertical length can be explicitly
+  // passed to support cutting out for long keys like enter on the kinesis.
   Shape GetInverseCap(double custom_vertical_length = -1) const;
   Shape GetCap(bool fill_in_cap_path = false) const;
 

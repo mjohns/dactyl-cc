@@ -7,5 +7,5 @@
 ./build.sh --clean
 
 // To generate STL from command line:
-openscad -o things/left.stl left.scad
+openscad -o things/left.stl out/left.scad
 ```
