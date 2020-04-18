@@ -267,7 +267,7 @@ int main() {
     k.name = "5";
     k.SetParent(key_t);
     // 5 hits 4 a little.
-    k.t().x = 1.2;
+    k.t().x = 1.5;
   });
 
   Key key_b = GetRotatedKey(kGColumnRadius, false);
@@ -580,7 +580,7 @@ int main() {
                  .Apply(wall_connector)));
   }
 
-  UnionAll(shapes).WriteToFile("dactyl.scad");
+  UnionAll(shapes).WriteToFile("left.scad");
 }
 
 Shape ConnectMainKeys(const std::vector<std::vector<Key*>>& key_grid) {
