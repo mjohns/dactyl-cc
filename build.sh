@@ -22,7 +22,7 @@ if [ ! -f key.o ]; then
 fi
 
 echo "Building"
-g++ -std=c++17 ../dactyl.cc *.o -I.. -o dactyl
+g++ -std=c++17 ../dactyl.cc ../key_data.cc *.o -I.. -o dactyl
 if [ $? -ne 0 ]; then
   echo "Failed to build"
   exit 1
