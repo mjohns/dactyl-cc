@@ -221,6 +221,7 @@ int main() {
   {
     TransformList b_point = d.key_b.GetBottomRight().TranslateFront(-2, 1, -4);
     TransformList a_point = d.key_right_arrow.GetTopRight(-1).TranslateFront(4, 2.5, 0);
+    // TODO: These should be broken down into triangles.
     shapes.push_back(Hull(d.thumb_delete.GetTopLeft(wall_connector_offset).Apply(wall_connector),
                           b_point.Apply(wall_connector),
                           a_point.Apply(wall_connector),
@@ -231,6 +232,7 @@ int main() {
   {
     TransformList extra_thumb_wall_point =
         d.key_right_arrow.GetBottomRight(wall_connector_offset).TranslateFront(-.5, 1, -3);
+    // TODO: These should be broken down into triangles.
     shapes.push_back(
         Hull(d.thumb_backspace.GetBottomLeft(wall_connector_offset).Apply(wall_connector),
              extra_thumb_wall_point.Apply(wall_connector),
