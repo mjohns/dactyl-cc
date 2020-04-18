@@ -361,12 +361,12 @@ int main() {
 
   // Adjust the switch widths.
   for (Key* key : key_grid[0]) {
-    key->extra_height_top = 8;
+    key->extra_width_top = 8;
   }
-  key_tilda.extra_height_bottom = 6;
+  key_tilda.extra_width_bottom = 6;
   key_tilda.extra_width_right = 3;
-  key_slash.extra_height_bottom = 8;
-  key_left_arrow.extra_height_bottom = 8;
+  key_slash.extra_width_bottom = 8;
+  key_left_arrow.extra_width_bottom = 8;
   key_slash.extra_width_left = 0;
 
   for (Key* key : left_wall_keys) {
@@ -389,22 +389,22 @@ int main() {
     key->extra_width_left = 3;
   }
   key_tilda.extra_width_left = 4.5;
-  key_shift.extra_height_bottom = 8;
+  key_shift.extra_width_bottom = 8;
 
-  thumb.extra_height_bottom = 2;
+  thumb.extra_width_bottom = 2;
   thumb.extra_width_left = 2;
-  thumb_delete.extra_height_bottom = 2;
-  thumb_end.extra_height_bottom = 2;
+  thumb_delete.extra_width_bottom = 2;
+  thumb_end.extra_width_bottom = 2;
 
   thumb_ctrl.extra_width_left = 2;
-  thumb_ctrl.extra_height_top = 2;
-  thumb_alt.extra_height_top = 2;
+  thumb_ctrl.extra_width_top = 2;
+  thumb_alt.extra_width_top = 2;
   thumb_alt.extra_width_right = 2;
   thumb_alt.extra_width_left = 2;
   thumb_home.extra_width_right = 2;
   thumb_home.extra_width_left = 2;
-  thumb_home.extra_height_top = 2;
-  thumb_end.extra_height_top = 2;
+  thumb_home.extra_width_top = 2;
+  thumb_end.extra_width_top = 2;
   thumb_end.extra_width_right = 2;
   thumb_end.extra_width_left = 2;
   thumb_delete.extra_width_left = 2;
