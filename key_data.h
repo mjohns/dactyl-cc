@@ -5,6 +5,7 @@
 
 namespace scad {
 
+// Key positioning data and description of layout and grouping of keys.
 struct KeyData {
   KeyData(TransformList origin);
 
