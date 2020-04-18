@@ -83,6 +83,7 @@ Shape MakeDsaCap() {
   });
 }
 
+// Note: the dimensions don't seem 100% accurate.
 Shape MakeSaCapPretty() {
   Shape c = Cylinder({.h = 33, .r1 = 33, .r2 = 33, .fn = 200, .center = false});
   Shape cap = Intersection(c.Rotate(90, 0, 0).Translate(24, 16, 0),

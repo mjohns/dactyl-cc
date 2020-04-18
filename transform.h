@@ -9,6 +9,8 @@ namespace scad {
 
 const glm::vec3 kOrigin(0, 0, 0);
 
+// A rotation and translation. The rotations are applied first in z,x,y order and then the
+// translation is added.
 struct Transform {
  public:
   float x = 0;
@@ -59,6 +61,7 @@ struct Transform {
   glm::vec3 Apply(const glm::vec3& p) const;
 };
 
+// A list of transforms to apply to a shape or a point. The rotations are applied in order.
 class TransformList {
  public:
   Shape Apply(const Shape& shape) const;
@@ -100,6 +103,11 @@ class TransformList {
   TransformList& RotateZ(float deg) {
     Transform& t = AddTransform();
     t.rz = deg;
+    return *this;
+  }
+
+  TransformList& TranslateFront(float x, float y, float z) {
+    AddTransformFront({x, y, z});
     return *this;
   }
 

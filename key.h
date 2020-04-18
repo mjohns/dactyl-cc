@@ -31,8 +31,14 @@ const double kSaTallEdgeHeight = 16.5;
 
 const double kSwitchHorizontalOffset = kSwitchWidth / 2 + kWallWidth;
 
+// This is the distance between the top of the switch plate and the tip of the switch stem.
+const double kSwitchTipOffset = 10;
+
+// This connector is more bulky.
 Shape GetCapsuleConnector();
 Shape GetSphereConnector();
+// This connector is thin. It does not produce good results when the two connectors are not
+// relatively parallel.
 Shape GetPostConnector();
 
 enum class KeyType {
@@ -120,6 +126,7 @@ struct Key {
   std::vector<TransformList> GetCorners(double offset = 0) const;
 
  private:
+  // These are the inner corners of the switch plate.
   TransformList GetTopRightInternal() const;
   TransformList GetTopLeftInternal() const;
   TransformList GetBottomRightInternal() const;
