@@ -196,13 +196,13 @@ Shape Key::GetSwitch() const {
   } else {
     shapes.push_back(GetSwitchTransforms().Apply(MakeSwitch(add_side_nub)));
   }
-  if (extra_height_top > 0) {
+  if (extra_width_top > 0) {
     shapes.push_back(Hull(GetTopRight().Apply(GetPostConnector()),
                           GetTopRightInternal().Apply(GetPostConnector()),
                           GetTopLeftInternal().Apply(GetPostConnector()),
                           GetTopLeft().Apply(GetPostConnector())));
   }
-  if (extra_height_bottom > 0) {
+  if (extra_width_bottom > 0) {
     shapes.push_back(Hull(GetBottomLeft().Apply(GetPostConnector()),
                           GetBottomLeftInternal().Apply(GetPostConnector()),
                           GetBottomRightInternal().Apply(GetPostConnector()),
@@ -261,7 +261,7 @@ Shape Key::GetCap(bool fill_in_cap_path) const {
 
 TransformList Key::GetTopRight(double offset) const {
   TransformList transforms;
-  transforms.AddTransform({extra_width_right + offset, extra_height_top + offset, 0});
+  transforms.AddTransform({extra_width_right + offset, extra_width_top + offset, 0});
   return transforms.Append(GetTopRightInternal());
 }
 
@@ -273,7 +273,7 @@ TransformList Key::GetTopRightInternal() const {
 
 TransformList Key::GetTopLeft(double offset) const {
   TransformList transforms;
-  transforms.AddTransform({-1 * (extra_width_left + offset), extra_height_top + offset, 0});
+  transforms.AddTransform({-1 * (extra_width_left + offset), extra_width_top + offset, 0});
   return transforms.Append(GetTopLeftInternal());
 }
 
@@ -285,7 +285,7 @@ TransformList Key::GetTopLeftInternal() const {
 
 TransformList Key::GetBottomRight(double offset) const {
   TransformList transforms;
-  transforms.AddTransform({extra_width_right + offset, -1 * (extra_height_bottom + offset), 0});
+  transforms.AddTransform({extra_width_right + offset, -1 * (extra_width_bottom + offset), 0});
   return transforms.Append(GetBottomRightInternal());
 }
 
@@ -298,7 +298,7 @@ TransformList Key::GetBottomRightInternal() const {
 TransformList Key::GetBottomLeft(double offset) const {
   TransformList transforms;
   transforms.AddTransform(
-      {-1 * (extra_width_left + offset), -1 * (extra_height_bottom + offset), 0});
+      {-1 * (extra_width_left + offset), -1 * (extra_width_bottom + offset), 0});
   return transforms.Append(GetBottomLeftInternal());
 }
 

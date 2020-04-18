@@ -62,8 +62,8 @@ struct Key {
   TransformList parent_transforms;
   TransformList local_transforms;
 
-  double extra_height_top = 0;
-  double extra_height_bottom = 0;
+  double extra_width_top = 0;
+  double extra_width_bottom = 0;
   double extra_width_left = 0;
   double extra_width_right = 0;
   // This makes the switch taller (moves the connectors down and increases wall height) while
