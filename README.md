@@ -1,3 +1,5 @@
+The main entry point is dactyl.cc. All of the key positioning is in key_data.*.
+
 ```
 // Build. Requires g++.
 ./build.sh.
