@@ -47,6 +47,7 @@ int main() {
   std::vector<Key*> left_wall_keys = {&d.key_plus, &d.key_tab, &d.key_caps, &d.key_shift};
   std::vector<Key*> right_wall_keys = {&d.key_5, &d.key_t, &d.key_g, &d.key_b};
 
+  /*
   // Adjust the switch widths.
   for (Key* key : d.row(0)) {
     key->extra_width_top = 8;
@@ -79,12 +80,22 @@ int main() {
   d.key_tilda.extra_width_left = 4.5;
   d.key_shift.extra_width_bottom = 8;
 
+  for (Key* key : d.thumb_keys()) {
+    key->extra_z += 1;
+  }
+  d.key_5.extra_z += 1.5;
+
+  */
+
+  //
+  // Thumb plate
+  //
+
+  std::vector<Shape> thumb_plate_shapes;
   d.thumb_backspace.extra_width_bottom = 2;
   d.thumb_backspace.extra_width_left = 2;
   d.thumb_delete.extra_width_bottom = 2;
   d.thumb_end.extra_width_bottom = 2;
-
-  d.thumb_ctrl.extra_width_left = 2;
   d.thumb_ctrl.extra_width_top = 2;
   d.thumb_alt.extra_width_top = 2;
   d.thumb_alt.extra_width_right = 2;
@@ -95,26 +106,59 @@ int main() {
   d.thumb_end.extra_width_top = 2;
   d.thumb_end.extra_width_right = 2;
   d.thumb_end.extra_width_left = 2;
-  d.thumb_delete.extra_width_left = 2;
-
   for (Key* key : d.thumb_keys()) {
-    key->extra_z += 1;
+    thumb_plate_shapes.push_back(key->GetSwitch());
   }
-  d.key_5.extra_z += 1.5;
+  thumb_plate_shapes.push_back(Union(
+      ConnectHorizontal(d.thumb_ctrl, d.thumb_alt),
+      ConnectHorizontal(d.thumb_backspace, d.thumb_delete),
+      ConnectVertical(d.thumb_ctrl, d.thumb_delete),
+      Tri(d.thumb_backspace.GetTopLeft(), d.thumb_delete.GetTopLeft(), d.thumb_ctrl.GetTopLeft())));
+  Shape thumb_plate = UnionAll(thumb_plate_shapes);
+
+  //
+  // Main plate
+  //
+  std::vector<Shape> main_plate_shapes;
+  d.key_b.extra_width_bottom = 10;
+  for (Key* key : d.grid_keys()) {
+    main_plate_shapes.push_back(key->GetSwitch());
+  }
+  main_plate_shapes.push_back(ConnectMainKeys(d));
+  Shape main_plate = UnionAll(main_plate_shapes);
 
   std::vector<Shape> shapes;
-  for (Key* key : d.all_keys()) {
-    key->extra_z += 2;
-    shapes.push_back(key->GetSwitch());
+  shapes.push_back(thumb_plate);
+  shapes.push_back(main_plate);
 
-    if (kAddCaps) {
-      shapes.push_back(key->GetCap().Color("red"));
-    }
-  }
+  // Connect main and thumb plates.
+  shapes.push_back(Union(
+      Tri(d.thumb_ctrl.GetTopLeft(),
+          d.key_b.GetTopRight(),
+          d.key_b.GetTopRight().TranslateFront(0, -22, 0)),
+      Tri(d.thumb_backspace.GetBottomLeft(),
+          d.key_right_arrow.GetBottomLeft(),
+          d.thumb_backspace.GetTopLeft().TranslateFront(0, -4.5, 0)),
+      Tri(d.key_right_arrow.GetBottomRight(),
+          d.key_right_arrow.GetTopRight(),
+          d.key_b.GetBottomLeft()),
+      Tri(d.key_right_arrow.GetTopRight(), d.key_v.GetBottomRight(), d.key_b.GetBottomLeft()),
+      Tri(d.key_right_arrow.GetBottomRight(), d.key_b.GetBottomLeft(), d.key_b.GetBottomRight())));
 
-  shapes.push_back(ConnectMainKeys(d));
-  shapes.push_back(ConnectHorizontal(d.thumb_backspace, d.thumb_delete));
-  shapes.push_back(ConnectVertical(d.thumb_ctrl, d.thumb_delete));
+  /*
+  shapes.push_back(
+      Tri(d.thumb_ctrl.GetTopLeft(), d.thumb_ctrl.GetBottomLeft(), d.key_b.GetBottomRight()));
+                       */
+  /*
+  shapes.push_back(Tri(d.key_right_arrow.GetBottomRight(),
+                       d.thumb_backspace.GetTopLeft(),
+                       d.key_b.GetBottomRight()));
+                       */
+  /*
+  shapes.push_back(Tri(d.key_right_arrow.GetBottomRight(),
+                       d.key_right_arrow.GetTopRight(),
+                       d.key_b.GetBottomLeft()));
+                       */
 
   double wall_connector_offset = -1;
   Shape wall_connector = Cube(2, 2, 4).TranslateZ(-2);
@@ -211,8 +255,9 @@ int main() {
     return UnionAll(wall_shapes);
   };
 
-  shapes.push_back(make_wall(wall_points));
+  // shapes.push_back(make_wall(wall_points));
 
+  /*
   // Connect up thumb to main keys.
   shapes.push_back(Tri(extra_thumb_top_wall_point,
                        d.thumb_ctrl.GetTopLeft(wall_connector_offset),
@@ -239,8 +284,26 @@ int main() {
              d.key_right_arrow.GetBottomLeft(wall_connector_offset).Apply(wall_connector),
              d.key_left_arrow.GetBottomRight(wall_connector_offset).Apply(wall_connector)));
   }
+  */
 
-  UnionAll(shapes).WriteToFile("left.scad");
+  if (kAddCaps) {
+    for (Key* key : d.all_keys()) {
+      shapes.push_back(key->GetCap().Color("red"));
+    }
+  }
+
+  std::vector<Shape> negative_shapes;
+  // Cut off the parts sticking up into the thumb plate.
+  negative_shapes.push_back(
+      d.thumb_backspace.GetTopLeft().Apply(Cube(30, 30, 6).Translate(15 - 0, 15 - 5, 3)));
+  negative_shapes.push_back(
+      d.thumb_backspace.GetTopLeft()
+          .Apply(Cube(10, 20, 2).Translate(5, 0, 1).RotateY(-30).TranslateY(-4))
+          .Color("red"));
+  // thumb_backspace key hole needs cutting
+  // right arrow key hole needs cutting
+
+  UnionAll(shapes).Subtract(UnionAll(negative_shapes).Color("red")).WriteToFile("left.scad");
   return 0;
 }
 
@@ -258,13 +321,12 @@ Shape ConnectMainKeys(KeyData& d) {
       Key* top = d.get_key(r - 1, c);
 
       if (left != nullptr) {
-        shapes.push_back(ConnectHorizontal(*left, *key, GetCapsuleConnector(), -1));
+        shapes.push_back(ConnectHorizontal(*left, *key));
       }
       if (top != nullptr) {
         shapes.push_back(ConnectVertical(*top, *key));
         if (left != nullptr && top_left != nullptr) {
-          shapes.push_back(
-              ConnectDiagonal(*top_left, *top, *key, *left, GetCapsuleConnector(), -1));
+          shapes.push_back(ConnectDiagonal(*top_left, *top, *key, *left));
         }
       }
     }
