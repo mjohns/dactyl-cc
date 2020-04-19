@@ -151,6 +151,16 @@ Shape Tri(const TransformList& t1,
           const TransformList& t2,
           const TransformList& t3,
           Shape connector = GetPostConnector());
+Shape Tri(const Shape& s1, const Shape& s2, const Shape& s3);
+Shape TriHull(const TransformList& t1,
+              const TransformList& t2,
+              const TransformList& t3,
+              const TransformList& t4,
+              Shape connector = GetPostConnector());
+Shape TriHull(const Shape& s1, const Shape& s2, const Shape& s3, const Shape& s4);
+Shape TriFan(const TransformList& center,
+             const std::vector<TransformList>& transforms,
+             Shape connector = GetPostConnector());
 
 Shape MakeDsaCap();
 

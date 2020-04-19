@@ -3,6 +3,7 @@
 #include <cassert>
 #include <memory>
 #include <unordered_set>
+#include <vector>
 
 #include "scad.h"
 #include "transform.h"
@@ -337,7 +338,7 @@ Shape GetSphereConnector() {
 }
 
 Shape GetPostConnector() {
-  return Cube(.01, .01, kSwitchThickness).TranslateZ(kSwitchThickness / -2.0);
+  return Cube(.01, .01, 3.5).TranslateZ(3.5 / -2.0);
 }
 
 Shape ConnectVertical(const Key& top, const Key& bottom, Shape connector, double offset) {
@@ -376,7 +377,36 @@ Shape Tri(const TransformList& t1,
           const TransformList& t2,
           const TransformList& t3,
           Shape connector) {
-  return Hull(t1.Apply(connector), t2.Apply(connector), t3.Apply(connector));
+  return Tri(t1.Apply(connector), t2.Apply(connector), t3.Apply(connector));
+}
+
+Shape Tri(const Shape& s1, const Shape& s2, const Shape& s3) {
+  return Hull(s1, s2, s3);
+}
+
+Shape TriHull(const TransformList& t1,
+              const TransformList& t2,
+              const TransformList& t3,
+              const TransformList& t4,
+              Shape connector) {
+  return TriHull(
+      t1.Apply(connector), t2.Apply(connector), t3.Apply(connector), t4.Apply(connector));
+}
+
+Shape TriHull(const Shape& s1, const Shape& s2, const Shape& s3, const Shape& s4) {
+  return Union(Hull(s1, s2, s3), Hull(s4, s2, s3));
+}
+
+Shape TriFan(const TransformList& center,
+             const std::vector<TransformList>& transforms,
+             Shape connector) {
+  std::vector<Shape> shapes;
+  for (size_t i = 0; i < transforms.size() - 1; ++i) {
+    shapes.push_back(Hull(center.Apply(connector),
+                          transforms[i].Apply(connector),
+                          transforms[i + 1].Apply(connector)));
+  }
+  return UnionAll(shapes);
 }
 
 }  // namespace scad

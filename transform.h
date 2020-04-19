@@ -41,6 +41,21 @@ struct Transform {
     return glm::vec3(x, y, z);
   }
 
+  Transform& SetRotationX(double rotation) {
+    rx = rotation;
+    return *this;
+  }
+
+  Transform& SetRotationY(double rotation) {
+    ry = rotation;
+    return *this;
+  }
+
+  Transform& SetRotationZ(double rotation) {
+    rz = rotation;
+    return *this;
+  }
+
   Shape Apply(const Shape& in) const {
     Shape shape = in;
     if (rz != 0) {
@@ -134,6 +149,11 @@ class TransformList {
 
   TransformList& Append(const TransformList& other) {
     transforms_.insert(transforms_.end(), other.transforms_.begin(), other.transforms_.end());
+    return *this;
+  }
+
+  TransformList& AppendFront(const TransformList& other) {
+    transforms_.insert(transforms_.begin(), other.transforms_.begin(), other.transforms_.end());
     return *this;
   }
 
