@@ -56,7 +56,7 @@ int main() {
   d.thumb_end.extra_width_left = 2;
 
   d.key_left_arrow.extra_width_bottom = 5;
-  d.key_slash.extra_width_bottom = 5;
+  d.key_slash.extra_width_bottom = 8;
   d.key_tilda.extra_width_bottom = 4;
   d.key_shift.extra_width_bottom = 6;
 
@@ -72,6 +72,7 @@ int main() {
     // top row
     key->extra_width_top = 4;
   }
+  d.key_1.extra_width_top += 3;
 
   for (Key* key : d.column(0)) {
     if (key != nullptr) {
@@ -137,12 +138,14 @@ int main() {
       Tri(d.key_shift.GetBottomRight(), d.key_tilda.GetBottomLeft(), d.key_tilda.GetTopLeft()));
   shapes.push_back(
       Tri(d.key_shift.GetBottomRight(), d.key_z.GetBottomLeft(), d.key_tilda.GetTopLeft()));
+  shapes.push_back(
+      Tri(d.key_tilda.GetBottomLeft(), d.key_shift.GetBottomLeft(), d.key_shift.GetBottomRight()));
 
   //
   // Make the wall
   //
   {
-    const int slice_point_count = 5;
+    const int slice_point_count = 6;
     struct WallPoint {
       WallPoint(TransformList transforms, glm::vec3 out_direction, float distance = 6.0)
           : transforms(transforms), out_direction(out_direction), distance(distance) {
@@ -159,7 +162,6 @@ int main() {
 
     std::vector<WallPoint> wall_points = {
         // Start top left and go clockwise
-        //{d.key_plus.GetTopLeft(), glm::vec3(-5, 5, -10)},
         {d.key_plus.GetTopLeft(), up},
         {d.key_plus.GetTopRight(), up},
 
@@ -173,21 +175,20 @@ int main() {
         {d.key_3.GetTopRight(), up},
 
         {d.key_4.GetTopLeft(), up},
-        {d.key_4.GetTopRight(), up},
+        {d.key_4.GetTopRight(), glm::vec3(-1, 3, 0)},
 
-        {d.key_5.GetTopLeft(), up},
+        //{d.key_5.GetTopLeft(), glm::vec3(3, 3, 0), 10},
         {d.key_5.GetTopRight(), up},
         {d.key_5.GetTopRight(), right},
-        //{d.key_5.GetTopRight(), glm::vec3(5, 5, -10)},
         {d.key_5.GetBottomRight(), right},
 
         {d.key_t.GetTopRight(), right},
         {d.key_t.GetBottomRight(), right},
 
         {d.key_g.GetTopRight(), right},
-        {d.key_g.GetBottomRight(), right},
+        {d.key_g.GetBottomRight(), glm::vec3(2, 1, 0)},
 
-        {d.thumb_ctrl.GetTopLeft(), glm::vec3(4, 10, -10)},
+        {d.thumb_ctrl.GetTopLeft(), glm::vec3(4, 5, 0)},
         {d.thumb_ctrl.GetTopRight(), up},
 
         {d.thumb_alt.GetTopLeft(), up},
@@ -206,14 +207,14 @@ int main() {
         {d.thumb_backspace.GetBottomLeft(), down},
 
         {d.key_slash.GetBottomRight(), down},
-        {d.key_slash.GetBottomLeft(), down},
+        {d.key_slash.GetBottomLeft(), glm::vec3(1, -2, 0)},
 
         {d.key_tilda.GetBottomRight(), down},
         {d.key_tilda.GetBottomLeft(), down},
+        {d.key_tilda.GetBottomLeft(), glm::vec3(-1, -1, 0)},
 
-        {d.key_shift.GetBottomRight(), glm::vec3(-5, -5, -10)},
         {d.key_shift.GetBottomLeft(), down},
-        {d.key_shift.GetBottomLeft(), left},
+        {d.key_shift.GetBottomLeft(), glm::vec3(-1, -1, 0)},
         {d.key_shift.GetTopLeft(), left},
 
         {d.key_caps.GetBottomLeft(), left},
@@ -233,9 +234,9 @@ int main() {
 
       glm::vec3 p = point.transforms.Apply(kOrigin);
 
-      Shape last_shape = point.transforms.Apply(GetPostConnector());
+      Shape last_shape = Hull(point.transforms.Apply(GetPostConnector()), Cube(.1).Translate(p - (1.5f * out)).TranslateZ(-2));
       std::vector<Shape> slice;
-      const double z_step = p.z / 5.0;
+      const double z_step = p.z / slice_point_count;
       float step = point.distance;
       for (int i = 0; i < slice_point_count; ++i) {
         p = p + (step * out);
@@ -255,6 +256,8 @@ int main() {
       auto& next_slice = wall_slices[(i + 1) % wall_slices.size()];
       for (size_t j = 0; j < slice_point_count; ++j) {
         shapes.push_back(Hull(slice[j], next_slice[j]));
+        // Uncomment for testing. Much faster and easier to visualize.
+        // shapes.push_back(slice[j]);
       }
     }
   }
