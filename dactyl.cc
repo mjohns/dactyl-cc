@@ -27,7 +27,7 @@ int main() {
 
   if (kWriteTestKeys) {
     std::vector<Shape> test_shapes;
-    std::vector<Key*> test_keys = {&d.key_3, &d.key_e, &d.key_d};
+    std::vector<Key*> test_keys = {&d.key_3, &d.key_e, &d.key_4};
     for (Key* key : test_keys) {
       key->add_side_nub = false;
       key->extra_z = 4;
@@ -279,7 +279,7 @@ int main() {
   std::vector<Shape> negative_shapes;
   // Cut off the parts sticking up into the thumb plate.
   negative_shapes.push_back(
-      d.thumb_backspace.GetTopLeft().Apply(Cube(30, 30, 6).Translate(15 - 0, 15 - 5, 3)));
+      d.thumb_backspace.GetTopLeft().Apply(Cube(30, 50, 6).Translate(15 - 0, 25 - 5, 3)));
   negative_shapes.push_back(
       d.thumb_backspace.GetTopLeft()
           .Apply(Cube(10, 20, 2).Translate(5, 0, 1).RotateY(-30).TranslateY(-4))

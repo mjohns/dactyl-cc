@@ -192,11 +192,14 @@ KeyData::KeyData(TransformList key_origin) {
     k.SetParent(key_d);
   });
 
-  // This key is rotated more than the others in the column.
-  key_3 = GetRotatedKey(50, true);
+  key_3 = GetRotatedKey(kDColumnRadius, true);
   key_3.Configure([&](Key& k) {
     k.name = "3";
     k.SetParent(key_e);
+
+    // This key is a little more forward than the rest.
+    k.AddTransform();
+    k.t().z = 1;
   });
 
   key_c = GetRotatedKey(kDColumnRadius, false);
