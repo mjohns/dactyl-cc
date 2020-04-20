@@ -59,7 +59,7 @@ int main() {
 
   // left wall
   for (Key* key : d.column(0)) {
-    if (key != nullptr) {
+    if (key) {
       key->extra_width_left = 4;
     }
   }
@@ -70,8 +70,12 @@ int main() {
 
   for (Key* key : d.row(0)) {
     // top row
-    key->extra_width_top = 2;
+    if (key) {
+      key->extra_width_top = 2;
+    }
   }
+
+  d.key_b.extra_width_bottom = 10;
 
   std::vector<Shape> shapes;
 
@@ -91,7 +95,6 @@ int main() {
   //
   // Main plate
   //
-  d.key_b.extra_width_bottom = 10;
   shapes.push_back(ConnectMainKeys(d));
 
   // Connect main and thumb plates.
@@ -304,7 +307,7 @@ Shape ConnectMainKeys(KeyData& d) {
   for (int r = 0; r < d.num_rows(); ++r) {
     for (int c = 0; c < d.num_columns(); ++c) {
       Key* key = d.get_key(r, c);
-      if (key == nullptr) {
+      if (!key) {
         // No key at this location.
         continue;
       }
@@ -312,12 +315,12 @@ Shape ConnectMainKeys(KeyData& d) {
       Key* top_left = d.get_key(r - 1, c - 1);
       Key* top = d.get_key(r - 1, c);
 
-      if (left != nullptr) {
+      if (left) {
         shapes.push_back(ConnectHorizontal(*left, *key));
       }
-      if (top != nullptr) {
+      if (top) {
         shapes.push_back(ConnectVertical(*top, *key));
-        if (left != nullptr && top_left != nullptr) {
+        if (left && top_left) {
           shapes.push_back(ConnectDiagonal(*top_left, *top, *key, *left));
         }
       }
