@@ -19,7 +19,7 @@ Shape ConnectMainKeys(KeyData& d);
 
 int main() {
   TransformList key_origin;
-  key_origin.Translate(-20, -40, 10);
+  key_origin.Translate(-20, -40, 5);
 
   // This is where all of the logic to position the keys is done. Everything below is cosmetic
   // trying to build the case.
