@@ -219,11 +219,10 @@ int main() {
 
     std::vector<std::vector<Shape>> wall_slices;
     for (WallPoint point : wall_points) {
-      const glm::vec3 p = point.transforms.Apply(kOrigin);
-
       Shape s1 = point.transforms.Apply(GetPostConnector());
 
       TransformList t = point.transforms;
+      glm::vec3 out_dir;
       switch (point.out_direction) {
         case Direction::UP:
           t.AppendFront(TransformList().Translate(0, point.distance, 0).RotateX(-20));
@@ -238,7 +237,17 @@ int main() {
           t.AppendFront(TransformList().Translate(point.distance, 0, 0).RotateY(20));
           break;
       }
-      Shape s2 = t.Apply(Cube(.1, .1, 4).TranslateZ(-2));
+
+      const glm::vec3 post_offset(0, 0, -4);
+      const glm::vec3 p = point.transforms.Apply(post_offset);
+      const glm::vec3 p2 = t.Apply(post_offset);
+
+      glm::vec3 out_v = p2 - p;
+      out_v.z = 0;
+      const glm::vec3 in_v = -1.f * glm::normalize(out_v);
+
+      Shape s2 = Hull(
+          Cube(.1).Translate(p2), Cube(.1).Translate(p2 + (2.5f * in_v)));
 
       std::vector<Shape> slice;
       slice.push_back(Hull(s1, s2));
