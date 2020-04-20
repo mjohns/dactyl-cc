@@ -182,7 +182,7 @@ int main() {
         {d.key_t.GetTopRight(), right},
         {d.key_t.GetBottomRight(), right},
 
-        {d.thumb_ctrl.GetTopLeft(), up, 5},
+        {d.thumb_ctrl.GetTopLeft().RotateFront(0, 0, -15), up, 5},
         {d.thumb_ctrl.GetTopRight(), up},
 
         {d.thumb_alt.GetTopLeft(), up},
