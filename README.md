@@ -2,9 +2,11 @@
 
 This keyboard and associated libraries takes heavy inspiration from the
  [dactyl](https://github.com/adereth/dactyl-keyboard) and
-the [dactyl_manuform](https://github.com/abstracthat/dactyl-manuform).
- Major thanks to Matthew Adereth and Tom Short for their work creating those
- respective keyboards.
+the [dactyl_manuform](https://github.com/abstracthat/dactyl-manuform) keyboards.
+ Major thanks to Matthew Adereth and Tom Short for their work.
+
+The dactyl-cc keyboard takes a different approach to the structure of the code (and language)
+ as well as being more similar in feel to the Kinesis Advantage 2.
 
 ```
 // Build. Requires g++.
