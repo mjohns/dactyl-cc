@@ -128,15 +128,15 @@ int main() {
                               d.key_left_arrow.GetBottomLeft(),
                               d.key_slash.GetBottomRight(),
                               d.key_slash.GetBottomLeft(),
-                              d.key_tilda.GetBottomRight(),
+                              d.key_tilde.GetBottomRight(),
                           }));
 
   // Bottom right corner.
   shapes.push_back(TriFan(d.key_shift.GetBottomRight(),
                           {
                               d.key_z.GetBottomLeft(),
-                              d.key_tilda.GetTopLeft(),
-                              d.key_tilda.GetBottomLeft(),
+                              d.key_tilde.GetTopLeft(),
+                              d.key_tilde.GetBottomLeft(),
                               d.key_shift.GetBottomLeft(),
                           }));
 
@@ -200,8 +200,8 @@ int main() {
 
         {d.thumb_backspace.GetBottomLeft(), down},
 
-        {d.key_tilda.GetBottomRight(), down},
-        {d.key_tilda.GetBottomLeft(), down},
+        {d.key_tilde.GetBottomRight(), down},
+        {d.key_tilde.GetBottomLeft(), down},
 
         {d.key_shift.GetBottomLeft(), down},
         {d.key_shift.GetBottomLeft(), left},

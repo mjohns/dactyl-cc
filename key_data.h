@@ -37,7 +37,7 @@ struct KeyData {
   Key key_v;
   Key key_b;
 
-  Key key_tilda;
+  Key key_tilde;
   Key key_slash;
   Key key_left_arrow;
   Key key_right_arrow;
@@ -55,7 +55,7 @@ struct KeyData {
     { &key_tab,    &key_q,      &key_w,      &key_e,           &key_r,            &key_t},
     { &key_caps,   &key_a,      &key_s,      &key_d,           &key_f,            &key_g},
     { &key_shift,  &key_z,      &key_x,      &key_c,           &key_v,            &key_b},
-    { nullptr,     &key_tilda,  &key_slash,  &key_left_arrow,  &key_right_arrow,  nullptr},
+    { nullptr,     &key_tilde,  &key_slash,  &key_left_arrow,  &key_right_arrow,  nullptr},
   };
   // clang-format on
 
