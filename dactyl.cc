@@ -27,7 +27,7 @@ int main() {
 
   if (kWriteTestKeys) {
     std::vector<Shape> test_shapes;
-    std::vector<Key*> test_keys = {&d.key_5, &d.key_4};
+    std::vector<Key*> test_keys = {&d.key_3, &d.key_e, &d.key_d};
     for (Key* key : test_keys) {
       key->add_side_nub = false;
       key->extra_z = 4;
@@ -238,6 +238,9 @@ int main() {
           break;
       }
 
+      // Make sure the section extruded to the bottom is thick enough. With certain angles the
+      // projection is very small if you just use the post connector from the transform. Compute
+      // an explicit shape.
       const glm::vec3 post_offset(0, 0, -4);
       const glm::vec3 p = point.transforms.Apply(post_offset);
       const glm::vec3 p2 = t.Apply(post_offset);
@@ -273,8 +276,8 @@ int main() {
     }
   }
 
-  // Cut off the parts sticking up into the thumb plate.
   std::vector<Shape> negative_shapes;
+  // Cut off the parts sticking up into the thumb plate.
   negative_shapes.push_back(
       d.thumb_backspace.GetTopLeft().Apply(Cube(30, 30, 6).Translate(15 - 0, 15 - 5, 3)));
   negative_shapes.push_back(
@@ -283,6 +286,11 @@ int main() {
           .Color("red"));
   negative_shapes.push_back(d.thumb_backspace.GetInverseSwitch());
   negative_shapes.push_back(d.key_right_arrow.GetInverseSwitch());
+
+  // Cut out holes for cords. Inserts can be printed to fit in.
+  glm::vec3 connector_location = d.key_4.GetTopLeft().Apply(glm::vec3(9, 0, -4));
+  connector_location.z = 0;
+  negative_shapes.push_back(Cube(10, 10, 15).TranslateZ(5).Translate(connector_location));
 
   Shape result = UnionAll(shapes);
   // Subtracting is expensive to preview and is best to disable while testing.
