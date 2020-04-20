@@ -246,8 +246,7 @@ int main() {
       out_v.z = 0;
       const glm::vec3 in_v = -1.f * glm::normalize(out_v);
 
-      Shape s2 = Hull(
-          Cube(.1).Translate(p2), Cube(.1).Translate(p2 + (2.5f * in_v)));
+      Shape s2 = Hull(Cube(.1).Translate(p2), Cube(.1).Translate(p2 + (2.5f * in_v)));
 
       std::vector<Shape> slice;
       slice.push_back(Hull(s1, s2));
