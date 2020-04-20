@@ -303,9 +303,9 @@ KeyData::KeyData(TransformList key_origin) {
     k.SetParent(key_a);
   });
 
-  key_tilda = GetRotatedKey(kAColumnRadius, false);
-  key_tilda.Configure([&](Key& k) {
-    k.name = "tilda";
+  key_tilde = GetRotatedKey(kAColumnRadius, false);
+  key_tilde.Configure([&](Key& k) {
+    k.name = "tilde";
     k.SetParent(key_z);
   });
 

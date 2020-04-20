@@ -92,7 +92,9 @@ struct Transform {
   glm::vec3 Apply(const glm::vec3& p) const;
 };
 
-// A list of transforms to apply to a shape or a point. The rotations are applied in order.
+// A list of transforms to apply to a shape or a point. The transforms are applied in order. If you
+// are looking at a shape which has been placed by a transform list and you want to rotate it in
+// place, the transform you add needs to be applied first and you must use a "front" method.
 class TransformList {
  public:
   Shape Apply(const Shape& shape) const;
