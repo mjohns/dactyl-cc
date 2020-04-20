@@ -25,16 +25,25 @@ struct Transform {
   Transform() {
   }
 
-  Transform(double px, double py, double pz) {
-    x = px;
-    y = py;
-    z = pz;
+  Transform(double x, double y, double z) : x(x), y(y), z(z) {
   }
 
   Transform(const glm::vec3& t) {
     x = t.x;
     y = t.y;
     z = t.z;
+  }
+
+  static Transform Translation(double x, double y, double z) {
+    return Transform(x, y, z);
+  }
+
+  static Transform Rotation(double rx, double ry, double rz) {
+    Transform t;
+    t.rx = rx;
+    t.ry = ry;
+    t.rz = rz;
+    return t;
   }
 
   glm::vec3 translation() const {
@@ -53,6 +62,13 @@ struct Transform {
 
   Transform& SetRotationZ(double rotation) {
     rz = rotation;
+    return *this;
+  }
+
+  Transform& SetRotation(double rx, double ry, double rz) {
+    this->rx = rx;
+    this->ry = ry;
+    this->rz = rz;
     return *this;
   }
 
@@ -118,6 +134,11 @@ class TransformList {
   TransformList& RotateZ(float deg) {
     Transform& t = AddTransform();
     t.rz = deg;
+    return *this;
+  }
+
+  TransformList& RotateFront(float rx, float ry, float rz) {
+    AddTransformFront(Transform::Rotation(rx, ry, rz));
     return *this;
   }
 
