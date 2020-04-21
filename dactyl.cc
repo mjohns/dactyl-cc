@@ -9,7 +9,7 @@
 
 using namespace scad;
 
-constexpr bool kWriteTestKeys = true;
+constexpr bool kWriteTestKeys = false;
 // Add the caps into the stl for testing.
 constexpr bool kAddCaps = false;
 
