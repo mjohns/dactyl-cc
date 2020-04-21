@@ -9,7 +9,7 @@
 
 using namespace scad;
 
-constexpr bool kWriteTestKeys = false;
+constexpr bool kWriteTestKeys = true;
 // Add the caps into the stl for testing.
 constexpr bool kAddCaps = false;
 
@@ -27,7 +27,7 @@ int main() {
 
   if (kWriteTestKeys) {
     std::vector<Shape> test_shapes;
-    std::vector<Key*> test_keys = {&d.key_3, &d.key_e, &d.key_4};
+    std::vector<Key*> test_keys = {&d.key_3, &d.key_e, &d.key_4, &d.key_5, &d.key_d};
     for (Key* key : test_keys) {
       key->add_side_nub = false;
       key->extra_z = 4;
