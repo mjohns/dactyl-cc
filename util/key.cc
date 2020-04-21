@@ -184,7 +184,7 @@ Shape Key::GetInverseCap(double custom_vertical_length) const {
   if (custom_vertical_length > 0) {
     height = custom_vertical_length;
   }
-  return Cube(width, height, 30).TranslateZ(15);
+  return GetTransforms().Apply(Cube(width, height, 30).TranslateZ(15));
 }
 
 Shape Key::GetSwitch() const {
