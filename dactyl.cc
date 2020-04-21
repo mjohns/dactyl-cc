@@ -146,16 +146,21 @@ int main() {
   //
   // Make the wall
   //
-  // TODO: Consider adding a width parameter to help with certain segments of the wall which are
-  // thinner.
   {
     struct WallPoint {
-      WallPoint(TransformList transforms, Direction out_direction, float distance = 4.0)
-          : transforms(transforms), out_direction(out_direction), distance(distance) {
+      WallPoint(TransformList transforms,
+                Direction out_direction,
+                float extra_distance = 0,
+                float extra_width = 0)
+          : transforms(transforms),
+            out_direction(out_direction),
+            extra_distance(extra_distance),
+            extra_width(extra_width) {
       }
       TransformList transforms;
       Direction out_direction;
-      float distance;
+      float extra_distance;
+      float extra_width;
     };
 
     Direction up = Direction::UP;
@@ -166,12 +171,12 @@ int main() {
     std::vector<WallPoint> wall_points = {
         // Start top left and go clockwise
         {d.key_plus.GetTopLeft(), up},
-        {d.key_plus.GetTopRight(), up},
+        {d.key_plus.GetTopRight(), up, 0, .3},
 
-        {d.key_1.GetTopLeft(), up},
-        {d.key_1.GetTopRight(), up},
+        {d.key_1.GetTopLeft(), up, 0, .5},
+        {d.key_1.GetTopRight().RotateFront(0, 0, 30), up, 0, 1},
 
-        {d.key_2.GetTopLeft(), up},
+        {d.key_2.GetTopLeft(), up, 0, .3},
         {d.key_2.GetTopRight(), up},
 
         {d.key_3.GetTopLeft(), up},
@@ -179,7 +184,6 @@ int main() {
 
         {d.key_4.GetTopLeft(), up},
         {d.key_4.GetTopRight(), up},
-
         {d.key_5.GetTopRight(), up},
         {d.key_5.GetTopRight(), right},
         {d.key_5.GetBottomRight(), right},
@@ -188,22 +192,22 @@ int main() {
         {d.key_t.GetBottomRight(), right},
 
         {d.key_g.GetTopRight(), right},
-        {d.key_g.GetBottomRight(), right, 5},
+        {d.key_g.GetBottomRight(), right, 1, .5},
 
-        {d.thumb_ctrl.GetTopLeft(), up, 5},
+        {d.thumb_ctrl.GetTopLeft().RotateFront(0, 0, -15), up, 1, .5},
         {d.thumb_ctrl.GetTopRight(), up},
 
         {d.thumb_alt.GetTopLeft(), up},
-        {d.thumb_alt.GetTopRight(), up},
-        {d.thumb_alt.GetTopRight(), right},
+        {d.thumb_alt.GetTopRight(), up, 0, .5},
+        {d.thumb_alt.GetTopRight(), right, 0, .5},
         {d.thumb_alt.GetBottomRight(), right},
 
         {d.thumb_home.GetTopRight(), right},
         {d.thumb_home.GetBottomRight(), right},
 
         {d.thumb_end.GetTopRight(), right},
-        {d.thumb_end.GetBottomRight(), right},
-        {d.thumb_end.GetBottomRight(), down},
+        {d.thumb_end.GetBottomRight(), right, 0, .5},
+        {d.thumb_end.GetBottomRight(), down, 0, .5},
         {d.thumb_end.GetBottomLeft(), down},
 
         {d.thumb_backspace.GetBottomLeft(), down},
@@ -213,9 +217,9 @@ int main() {
         {d.key_tilde.GetBottomRight(), down},
         {d.key_tilde.GetBottomLeft(), down},
 
-        {d.key_shift.GetBottomLeft(), down},
-        {d.key_shift.GetBottomLeft(), left},
-        {d.key_shift.GetTopLeft(), left},
+        {d.key_shift.GetBottomLeft(), down, 0, .75},
+        {d.key_shift.GetBottomLeft(), left, 0, .5},
+        {d.key_shift.GetTopLeft(), left, 0, .5},
 
         {d.key_caps.GetBottomLeft(), left},
         {d.key_caps.GetTopLeft(), left},
@@ -233,18 +237,19 @@ int main() {
 
       TransformList t = point.transforms;
       glm::vec3 out_dir;
+      float distance = 4.8 + point.extra_distance;
       switch (point.out_direction) {
         case Direction::UP:
-          t.AppendFront(TransformList().Translate(0, point.distance, 0).RotateX(-20));
+          t.AppendFront(TransformList().Translate(0, distance, 0).RotateX(-20));
           break;
         case Direction::DOWN:
-          t.AppendFront(TransformList().Translate(0, -1 * point.distance, 0).RotateX(20));
+          t.AppendFront(TransformList().Translate(0, -1 * distance, 0).RotateX(20));
           break;
         case Direction::LEFT:
-          t.AppendFront(TransformList().Translate(-1 * point.distance, 0, 0).RotateY(-20));
+          t.AppendFront(TransformList().Translate(-1 * distance, 0, 0).RotateY(-20));
           break;
         case Direction::RIGHT:
-          t.AppendFront(TransformList().Translate(point.distance, 0, 0).RotateY(20));
+          t.AppendFront(TransformList().Translate(distance, 0, 0).RotateY(20));
           break;
       }
 
@@ -259,7 +264,8 @@ int main() {
       out_v.z = 0;
       const glm::vec3 in_v = -1.f * glm::normalize(out_v);
 
-      Shape s2 = Hull(Cube(.1).Translate(p2), Cube(.1).Translate(p2 + (2.5f * in_v)));
+      float width = 3.3 + point.extra_width;
+      Shape s2 = Hull(Cube(.1).Translate(p2), Cube(.1).Translate(p2 + (width * in_v)));
 
       std::vector<Shape> slice;
       slice.push_back(Hull(s1, s2));
@@ -296,7 +302,7 @@ int main() {
 
     glm::vec3 screw_left_bottom = d.key_shift.GetBottomLeft().Apply(kOrigin);
     screw_left_bottom.z = 0;
-    screw_left_bottom.x += 2.8;
+    screw_left_bottom.x += 3.2;
 
     glm::vec3 screw_left_top = d.key_plus.GetTopLeft().Apply(kOrigin);
     screw_left_top.z = 0;
@@ -315,7 +321,7 @@ int main() {
 
     glm::vec3 screw_right_mid = d.thumb_ctrl.GetTopLeft().Apply(kOrigin);
     screw_right_mid.z = 0;
-    screw_right_mid.y += -.3;
+    screw_right_mid.y += -.9;
 
     shapes.push_back(Union(screw_insert.Translate(screw_left_top),
                            screw_insert.Translate(screw_right_top),
@@ -330,9 +336,15 @@ int main() {
       d.thumb_backspace.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
 
   // Cut out holes for cords. Inserts can be printed to fit in.
-  glm::vec3 connector_location = d.key_4.GetTopLeft().Apply(glm::vec3(9, 0, -4));
-  connector_location.z = 0;
-  negative_shapes.push_back(Cube(10, 10, 20).TranslateZ(10).Translate(connector_location));
+  Shape connector_hole = Cube(10, 20, 10).TranslateZ(12 / 2);
+  glm::vec3 connector_location1 = d.key_4.GetTopLeft().Apply(kOrigin);
+  connector_location1.z = 6;
+  connector_location1.x += 9.75;
+  glm::vec3 connector_location2 = d.key_5.GetTopLeft().Apply(kOrigin);
+  connector_location2.z = 6;
+  connector_location2.x += 10.5;
+  negative_shapes.push_back(connector_hole.Translate(connector_location1));
+  negative_shapes.push_back(connector_hole.Translate(connector_location2));
 
   Shape result = UnionAll(shapes);
   // Subtracting is expensive to preview and is best to disable while testing.

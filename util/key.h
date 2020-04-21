@@ -161,11 +161,9 @@ Shape TriFan(const TransformList& center,
              Shape connector = GetPostConnector());
 
 Shape MakeDsaCap();
-
 Shape MakeSaCap();
 Shape MakeSaEdgeCap(SaEdgeType edge_type = SaEdgeType::BOTTOM);
 Shape MakeSaTallEdgeCap(SaEdgeType edge_type = SaEdgeType::BOTTOM);
-
 Shape MakeSwitch(bool add_side_nub = true);
 
 }  // namespace scad
