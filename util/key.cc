@@ -370,24 +370,45 @@ Shape TriHull(const TransformList& t1,
               const TransformList& t3,
               const TransformList& t4,
               Shape connector) {
-  return TriHull(
-      t1.Apply(connector), t2.Apply(connector), t3.Apply(connector), t4.Apply(connector));
+  return TriMesh({t1, t2, t3, t4}, connector);
 }
 
 Shape TriHull(const Shape& s1, const Shape& s2, const Shape& s3, const Shape& s4) {
-  return Union(Hull(s1, s2, s3), Hull(s4, s2, s3));
+  return TriMesh({s1, s2, s3, s4});
 }
 
 Shape TriFan(const TransformList& center,
              const std::vector<TransformList>& transforms,
              Shape connector) {
   std::vector<Shape> shapes;
-  for (size_t i = 0; i < transforms.size() - 1; ++i) {
-    shapes.push_back(Hull(center.Apply(connector),
-                          transforms[i].Apply(connector),
-                          transforms[i + 1].Apply(connector)));
+  for (auto& t : transforms) {
+    shapes.push_back(t.Apply(connector));
   }
-  return UnionAll(shapes);
+  return TriFan(center.Apply(connector), shapes);
+}
+
+Shape TriFan(Shape center, const std::vector<Shape>& shapes) {
+  std::vector<Shape> result;
+  for (size_t i = 0; i < shapes.size() - 1; ++i) {
+    result.push_back(Hull(center, shapes[i], shapes[i + 1]));
+  }
+  return UnionAll(result);
+}
+
+Shape TriMesh(const std::vector<TransformList>& transforms, Shape connector) {
+  std::vector<Shape> shapes;
+  for (auto& t : transforms) {
+    shapes.push_back(t.Apply(connector));
+  }
+  return TriMesh(shapes);
+}
+
+Shape TriMesh(const std::vector<Shape>& shapes) {
+  std::vector<Shape> result;
+  for (size_t i = 0; i < shapes.size() - 2; ++i) {
+    result.push_back(Hull(shapes[i], shapes[i + 1], shapes[i + 2]));
+  }
+  return UnionAll(result);
 }
 
 }  // namespace scad
