@@ -1,6 +1,6 @@
 ![image](https://i.redd.it/zhrj9a4d1gt41.jpg)
 
-This keyboard and associated libraries takes heavy inspiration from the
+This keyboard and associated libraries take heavy inspiration from the
  [dactyl](https://github.com/adereth/dactyl-keyboard) and
 the [dactyl_manuform](https://github.com/abstracthat/dactyl-manuform) keyboards.
  Major thanks to Matthew Adereth and Tom Short for their work.
