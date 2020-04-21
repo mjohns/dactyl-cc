@@ -200,7 +200,7 @@ KeyData::KeyData(TransformList key_origin) {
     k.SetParent(key_e);
 
     k.AddTransform();
-    k.t().z = 1.5;
+    k.t().z = .7;
     k.t().y = .2;
   });
 
