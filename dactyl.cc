@@ -338,7 +338,7 @@ int main() {
   // Subtracting is expensive to preview and is best to disable while testing.
   result = result.Subtract(UnionAll(negative_shapes));
   result.WriteToFile("left.scad");
-  result.MirrorY().WriteToFile("right.scad");
+  result.MirrorX().WriteToFile("right.scad");
   return 0;
 }
 
