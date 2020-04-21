@@ -74,8 +74,8 @@ int main() {
       key->extra_width_top = 2;
     }
   }
+  d.key_b.extra_width_bottom = 3;
 
-  d.key_b.extra_width_bottom = 10;
 
   std::vector<Shape> shapes;
 
@@ -83,55 +83,54 @@ int main() {
   // Thumb plate
   //
 
-  shapes.push_back(Union(
-      ConnectHorizontal(d.thumb_ctrl, d.thumb_alt),
-      ConnectHorizontal(d.thumb_backspace, d.thumb_delete),
-      ConnectVertical(d.thumb_ctrl, d.thumb_delete),
-      Tri(d.thumb_end.GetBottomLeft(),
-          d.thumb_delete.GetBottomRight(),
-          d.thumb_backspace.GetBottomLeft()),
-      Tri(d.thumb_backspace.GetTopLeft(), d.thumb_delete.GetTopLeft(), d.thumb_ctrl.GetTopLeft())));
+  shapes.push_back(Union(ConnectHorizontal(d.thumb_ctrl, d.thumb_alt),
+                         ConnectHorizontal(d.thumb_backspace, d.thumb_delete),
+                         ConnectVertical(d.thumb_ctrl, d.thumb_delete),
+                         Tri(d.thumb_end.GetBottomLeft(),
+                             d.thumb_delete.GetBottomRight(),
+                             d.thumb_backspace.GetBottomLeft())));
 
-  //
-  // Main plate
-  //
   shapes.push_back(ConnectMainKeys(d));
 
-  // Connect main and thumb plates.
-  shapes.push_back(Union(
+  shapes.push_back(TriFan(d.thumb_ctrl.GetTopLeft(),
+                          {
+                              d.key_b.GetBottomRight(),
+                              d.key_b.GetTopRight(),
+                              d.key_g.GetBottomRight(),
+                          })
 
-      // Connecting thumb up the right wall.
-      TriFan(d.thumb_ctrl.GetTopLeft(),
-             {
-                 d.key_b.GetTopRight().TranslateFront(0, -22, 0),
-                 d.key_b.GetTopRight(),
-                 d.key_g.GetBottomRight(),
-                 d.key_g.GetTopRight(),
-                 d.key_t.GetBottomRight(),
-             }),
+  );
 
-      Tri(d.key_t.GetBottomRight(), d.key_t.GetTopRight(), d.key_5.GetBottomRight()),
-      Tri(d.key_t.GetBottomRight(), d.key_g.GetTopRight(), d.key_5.GetBottomRight()),
+  TransformList slash_bottom_right = d.key_slash.GetBottomRight().TranslateFront(0, 0, -1);
 
-      Tri(d.thumb_backspace.GetBottomLeft(),
-          d.key_right_arrow.GetBottomLeft(),
-          d.thumb_backspace.GetTopLeft().TranslateFront(0, -4.5, 0)),
-
-      Tri(d.key_right_arrow.GetBottomRight(),
-          d.key_right_arrow.GetTopRight(),
-          d.key_b.GetBottomLeft()),
-      Tri(d.key_right_arrow.GetTopRight(), d.key_v.GetBottomRight(), d.key_b.GetBottomLeft()),
-      Tri(d.key_right_arrow.GetBottomRight(), d.key_b.GetBottomLeft(), d.key_b.GetBottomRight())));
-
-  // Working on where the thumb meets the arrow keys and bottom.
   shapes.push_back(TriFan(d.thumb_backspace.GetBottomLeft(),
                           {
+                              d.thumb_backspace.GetBottomLeft(),
+                              d.key_right_arrow.GetBottomRight().TranslateFront(0, 0, -2),
                               d.key_right_arrow.GetBottomLeft(),
-                              d.key_left_arrow.GetBottomRight(),
+                              d.key_left_arrow.GetBottomRight().TranslateFront(0, 0, -2),
                               d.key_left_arrow.GetBottomLeft(),
-                              d.key_slash.GetBottomRight(),
+                              slash_bottom_right,
+                          }));
+  shapes.push_back(TriFan(d.key_tilde.GetBottomRight(),
+                          {
                               d.key_slash.GetBottomLeft(),
-                              d.key_tilde.GetBottomRight(),
+                              slash_bottom_right,
+                          }));
+  shapes.push_back(TriFan(d.thumb_delete.GetTopLeft(),
+                          {
+                              d.thumb_ctrl.GetTopLeft(),
+                              d.key_b.GetBottomRight(),
+                              d.thumb_backspace.GetTopLeft(),
+                          }));
+  shapes.push_back(TriFan(d.key_b.GetBottomLeft(),
+                          {
+                              d.key_b.GetBottomRight(),
+                              d.thumb_backspace.GetTopLeft(),
+                              d.thumb_backspace.GetTopLeft(),
+                              d.key_right_arrow.GetBottomRight(),
+                              d.key_right_arrow.GetTopRight(),
+                              d.key_v.GetBottomRight(),
                           }));
 
   // Bottom right corner.
@@ -146,6 +145,8 @@ int main() {
   //
   // Make the wall
   //
+  // TODO: Consider adding a width parameter to help with certain segments of the wall which are
+  // thinner.
   {
     struct WallPoint {
       WallPoint(TransformList transforms, Direction out_direction, float distance = 4.0)
@@ -185,7 +186,10 @@ int main() {
         {d.key_t.GetTopRight(), right},
         {d.key_t.GetBottomRight(), right},
 
-        {d.thumb_ctrl.GetTopLeft().RotateFront(0, 0, -15), up, 5},
+        {d.key_g.GetTopRight(), right},
+        {d.key_g.GetBottomRight(), right, 5},
+
+        {d.thumb_ctrl.GetTopLeft(), up, 5},
         {d.thumb_ctrl.GetTopRight(), up},
 
         {d.thumb_alt.GetTopLeft(), up},
@@ -202,6 +206,8 @@ int main() {
         {d.thumb_end.GetBottomLeft(), down},
 
         {d.thumb_backspace.GetBottomLeft(), down},
+
+        {slash_bottom_right, down},
 
         {d.key_tilde.GetBottomRight(), down},
         {d.key_tilde.GetBottomLeft(), down},
@@ -284,11 +290,7 @@ int main() {
   negative_shapes.push_back(
       d.thumb_backspace.GetTopLeft().Apply(Cube(30, 50, 6).Translate(15 - 0, 25 - 5, 3)));
   negative_shapes.push_back(
-      d.thumb_backspace.GetTopLeft()
-          .Apply(Cube(10, 20, 2).Translate(5, 0, 1).RotateY(-30).TranslateY(-4))
-          .Color("red"));
-  negative_shapes.push_back(d.thumb_backspace.GetInverseSwitch());
-  negative_shapes.push_back(d.key_right_arrow.GetInverseSwitch());
+      d.thumb_backspace.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
 
   // Cut out holes for cords. Inserts can be printed to fit in.
   glm::vec3 connector_location = d.key_4.GetTopLeft().Apply(glm::vec3(9, 0, -4));
