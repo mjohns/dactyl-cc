@@ -318,25 +318,6 @@ std::vector<TransformList> Key::GetCorners(double offset) const {
   return {GetTopLeft(offset), GetTopRight(offset), GetBottomRight(offset), GetBottomLeft(offset)};
 }
 
-Shape GetCapsuleConnector() {
-  Shape s = Cube(2, 2, kSwitchThickness);
-  return s.TranslateZ(kSwitchThickness / -2);
-  /*
-  // Expensive to render
-  SphereParams params;
-  params.r = 1;
-  params.fn = 20;
-  return Hull(Sphere(params).TranslateZ(-1), Sphere(params).TranslateZ(-3));
-  */
-}
-
-Shape GetSphereConnector() {
-  SphereParams params;
-  params.r = 2;
-  params.fn = 30;
-  return Sphere(params).TranslateZ(-2);
-}
-
 Shape GetPostConnector() {
   return Cube(.01, .01, 3.5).TranslateZ(3.5 / -2.0);
 }

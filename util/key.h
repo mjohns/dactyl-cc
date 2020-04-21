@@ -34,13 +34,6 @@ const double kSwitchHorizontalOffset = kSwitchWidth / 2 + kWallWidth;
 // This is the distance between the top of the switch plate and the tip of the switch stem.
 const double kSwitchTipOffset = 10;
 
-// This connector is more bulky.
-Shape GetCapsuleConnector();
-Shape GetSphereConnector();
-// This connector is thin. It does not produce good results when the two connectors are not
-// relatively parallel.
-Shape GetPostConnector();
-
 enum class KeyType {
   DSA,
   SA,            // Row 3
@@ -132,6 +125,11 @@ struct Key {
   TransformList GetBottomRightInternal() const;
   TransformList GetBottomLeftInternal() const;
 };
+
+// Used to connect key corners together. It is thin so it can have width issues when the two
+// connectors being hulled don't have a large projection on one another. (keys close together with
+// vertical separation)
+Shape GetPostConnector();
 
 Shape ConnectVertical(const Key& top,
                       const Key& bottom,

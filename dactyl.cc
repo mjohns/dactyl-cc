@@ -76,7 +76,6 @@ int main() {
   }
   d.key_b.extra_width_bottom = 3;
 
-
   std::vector<Shape> shapes;
 
   //
@@ -101,14 +100,16 @@ int main() {
 
   );
 
+  // These transforms with TranslateFront are moving the connectors down in the z direction to
+  // reduce the vertical jumps.
   TransformList slash_bottom_right = d.key_slash.GetBottomRight().TranslateFront(0, 0, -1);
 
   shapes.push_back(TriFan(d.thumb_backspace.GetBottomLeft(),
                           {
                               d.thumb_backspace.GetBottomLeft(),
-                              d.key_right_arrow.GetBottomRight().TranslateFront(0, 0, -2),
-                              d.key_right_arrow.GetBottomLeft(),
-                              d.key_left_arrow.GetBottomRight().TranslateFront(0, 0, -2),
+                              d.key_right_arrow.GetBottomRight(),
+                              d.key_right_arrow.GetBottomLeft().TranslateFront(0, 0, -1),
+                              d.key_left_arrow.GetBottomRight().TranslateFront(0, 0, -1),
                               d.key_left_arrow.GetBottomLeft(),
                               slash_bottom_right,
                           }));
