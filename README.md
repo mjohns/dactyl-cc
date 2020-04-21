@@ -6,7 +6,7 @@ the [dactyl_manuform](https://github.com/abstracthat/dactyl-manuform) keyboards.
 The dactyl-cc keyboard takes a different approach to the structure of the code (and language)
  as well as being more similar in feel to the Kinesis Advantage 2.
 
-![image](https://imgur.com/IP2UYYA)
+![image](https://imgur.com/IP2UYYA.jpg)
 
 ```
 // Build. Requires g++.
@@ -19,5 +19,5 @@ The dactyl-cc keyboard takes a different approach to the structure of the code (
 openscad -o things/left.stl out/left.scad
 ```
 
-![image](https://imgur.com/LvZQUT4)
-![image](https://imgur.com/0AYtoey)
+![image](https://imgur.com/LvZQUT4.jpg)
+![image](https://imgur.com/0AYtoey.jpg)
