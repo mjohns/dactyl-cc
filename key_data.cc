@@ -147,6 +147,7 @@ KeyData::KeyData(TransformList key_origin) {
     k.SetParent(key_f);
     k.SetPosition(18.081, -1.310, 3.305);
     k.SetPosition(18.481, -1.310, 3.305);
+    k.SetPosition(18.65, -1.310, 3.305);
     k.t().ry = -10;
   });
 
@@ -192,14 +193,15 @@ KeyData::KeyData(TransformList key_origin) {
     k.SetParent(key_d);
   });
 
-  key_3 = GetRotatedKey(kDColumnRadius, true);
+  // This key is different from the others in the column
+  key_3 = GetRotatedKey(kDColumnRadius + 5, true);
   key_3.Configure([&](Key& k) {
     k.name = "3";
     k.SetParent(key_e);
 
-    // This key is a little more forward than the rest.
     k.AddTransform();
-    k.t().z = 1;
+    k.t().z = 1.5;
+    k.t().y = .2;
   });
 
   key_c = GetRotatedKey(kDColumnRadius, false);
