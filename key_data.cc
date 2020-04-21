@@ -193,15 +193,12 @@ KeyData::KeyData(TransformList key_origin) {
     k.SetParent(key_d);
   });
 
-  // This key is different from the others in the column
-  key_3 = GetRotatedKey(kDColumnRadius + 5, true);
+  // This key is different from the others in the column. It should be less angled due to the larger
+  // radius.
+  key_3 = GetRotatedKey(kDColumnRadius + 15, true);
   key_3.Configure([&](Key& k) {
     k.name = "3";
     k.SetParent(key_e);
-
-    k.AddTransform();
-    k.t().z = .7;
-    k.t().y = .2;
   });
 
   key_c = GetRotatedKey(kDColumnRadius, false);
