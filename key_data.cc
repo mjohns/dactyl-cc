@@ -145,8 +145,6 @@ KeyData::KeyData(TransformList key_origin) {
     // k.t().ry = -30;
 
     k.SetParent(key_f);
-    k.SetPosition(18.081, -1.310, 3.305);
-    k.SetPosition(18.481, -1.310, 3.305);
     k.SetPosition(18.65, -1.310, 3.305);
     k.t().ry = -10;
   });
