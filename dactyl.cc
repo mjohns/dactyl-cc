@@ -286,6 +286,44 @@ int main() {
     }
   }
 
+  // Add all the screw inserts.
+  {
+    double screw_height = 5;
+    double screw_radius = 4.4 / 2.0;
+    Shape screw_insert = Cylinder(screw_height, screw_radius + 1.65, 30)
+                             .Subtract(Cylinder(screw_height + 2, screw_radius, 30))
+                             .TranslateZ(screw_height / 2);
+
+    glm::vec3 screw_left_bottom = d.key_shift.GetBottomLeft().Apply(kOrigin);
+    screw_left_bottom.z = 0;
+    screw_left_bottom.x += 2.8;
+
+    glm::vec3 screw_left_top = d.key_plus.GetTopLeft().Apply(kOrigin);
+    screw_left_top.z = 0;
+    screw_left_top.x += 2.8;
+    screw_left_top.y += -.5;
+
+    glm::vec3 screw_right_top = d.key_5.GetTopRight().Apply(kOrigin);
+    screw_right_top.z = 0;
+    screw_right_top.x -= .8;
+    screw_right_top.y += -.5;
+
+    glm::vec3 screw_right_bottom = d.thumb_end.GetBottomLeft().Apply(kOrigin);
+    screw_right_bottom.z = 0;
+    screw_right_bottom.y += 3.5;
+    screw_right_bottom.x += 1.5;
+
+    glm::vec3 screw_right_mid = d.thumb_ctrl.GetTopLeft().Apply(kOrigin);
+    screw_right_mid.z = 0;
+    screw_right_mid.y += -.3;
+
+    shapes.push_back(Union(screw_insert.Translate(screw_left_top),
+                           screw_insert.Translate(screw_right_top),
+                           screw_insert.Translate(screw_right_mid),
+                           screw_insert.Translate(screw_right_bottom),
+                           screw_insert.Translate(screw_left_bottom)));
+  }
+
   std::vector<Shape> negative_shapes;
   // Cut off the parts sticking up into the thumb plate.
   negative_shapes.push_back(
