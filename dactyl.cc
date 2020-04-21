@@ -327,19 +327,18 @@ int main() {
   std::vector<Shape> negative_shapes;
   // Cut off the parts sticking up into the thumb plate.
   negative_shapes.push_back(
-      d.thumb_backspace.GetTopLeft().Apply(Cube(30, 50, 6).Translate(15 - 0, 25 - 5, 3)));
-  negative_shapes.push_back(
       d.thumb_backspace.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
 
   // Cut out holes for cords. Inserts can be printed to fit in.
   glm::vec3 connector_location = d.key_4.GetTopLeft().Apply(glm::vec3(9, 0, -4));
   connector_location.z = 0;
-  negative_shapes.push_back(Cube(10, 10, 15).TranslateZ(5).Translate(connector_location));
+  negative_shapes.push_back(Cube(10, 10, 20).TranslateZ(10).Translate(connector_location));
 
   Shape result = UnionAll(shapes);
   // Subtracting is expensive to preview and is best to disable while testing.
   result = result.Subtract(UnionAll(negative_shapes));
   result.WriteToFile("left.scad");
+  result.MirrorY().WriteToFile("right.scad");
   return 0;
 }
 
