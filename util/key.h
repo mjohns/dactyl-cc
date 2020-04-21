@@ -145,20 +145,29 @@ Shape ConnectDiagonal(const Key& top_left,
                       const Key& bottom_left,
                       Shape connector = GetPostConnector(),
                       double offset = 0);
+
 Shape Tri(const TransformList& t1,
           const TransformList& t2,
           const TransformList& t3,
           Shape connector = GetPostConnector());
 Shape Tri(const Shape& s1, const Shape& s2, const Shape& s3);
+
 Shape TriHull(const TransformList& t1,
               const TransformList& t2,
               const TransformList& t3,
               const TransformList& t4,
               Shape connector = GetPostConnector());
 Shape TriHull(const Shape& s1, const Shape& s2, const Shape& s3, const Shape& s4);
+
 Shape TriFan(const TransformList& center,
              const std::vector<TransformList>& transforms,
              Shape connector = GetPostConnector());
+Shape TriFan(Shape center, const std::vector<Shape>& shapes);
+
+// Makes a triangle with every consecutive set of 3 transforms. TriHull would be the same as calling
+// this with 4 transforms.
+Shape TriMesh(const std::vector<TransformList>& transforms, Shape connector = GetPostConnector());
+Shape TriMesh(const std::vector<Shape>& shapes);
 
 Shape MakeDsaCap();
 Shape MakeSaCap();
