@@ -68,8 +68,8 @@ KeyData::KeyData(TransformList key_origin) {
   // Thumb keys
   //
 
-  thumb_backspace.Configure([&](Key& k) {
-    k.name = "thumb_backspace";
+  key_backspace.Configure([&](Key& k) {
+    k.name = "key_backspace";
     k.SetParent(key_origin);
     k.SetPosition(60, -9.18, 42.83);
     k.t().rz = -21;
@@ -78,37 +78,37 @@ KeyData::KeyData(TransformList key_origin) {
   });
 
   // Second thumb key.
-  thumb_delete.Configure([&](Key& k) {
-    k.name = "thumb_delete";
-    k.SetParent(thumb_backspace);
+  key_delete.Configure([&](Key& k) {
+    k.name = "key_delete";
+    k.SetParent(key_backspace);
     k.SetPosition(kDefaultKeySpacing, 0, 0);
   });
 
   // Bottom side key.
-  thumb_end.Configure([&](Key& k) {
-    k.name = "thumb_end";
-    k.SetParent(thumb_delete);
+  key_end.Configure([&](Key& k) {
+    k.name = "key_end";
+    k.SetParent(key_delete);
     k.SetPosition(kDefaultKeySpacing, -9, 0);
   });
 
   // Middle side key.
-  thumb_home.Configure([&](Key& k) {
-    k.name = "thumb_home";
-    k.SetParent(thumb_delete);
+  key_home.Configure([&](Key& k) {
+    k.name = "key_home";
+    k.SetParent(key_delete);
     k.SetPosition(kDefaultKeySpacing, 10, 0);
   });
 
   // Top side key;
-  thumb_alt.Configure([&](Key& k) {
-    k.name = "thumb_alt";
-    k.SetParent(thumb_delete);
+  key_alt.Configure([&](Key& k) {
+    k.name = "key_alt";
+    k.SetParent(key_delete);
     k.SetPosition(kDefaultKeySpacing, 10 + kDefaultKeySpacing, 0);
   });
 
   // Top left key.
-  thumb_ctrl.Configure([&](Key& k) {
-    k.name = "thumb_ctrl";
-    k.SetParent(thumb_delete);
+  key_ctrl.Configure([&](Key& k) {
+    k.name = "key_ctrl";
+    k.SetParent(key_delete);
     k.SetPosition(0, 10 + kDefaultKeySpacing, 0);
   });
 

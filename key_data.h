@@ -42,12 +42,12 @@ struct KeyData {
   Key key_left_arrow;
   Key key_right_arrow;
 
-  Key thumb_backspace;
-  Key thumb_delete;
-  Key thumb_end;
-  Key thumb_home;
-  Key thumb_ctrl;
-  Key thumb_alt;
+  Key key_backspace;
+  Key key_delete;
+  Key key_end;
+  Key key_home;
+  Key key_ctrl;
+  Key key_alt;
 
   // clang-format off
   const std::vector<std::vector<Key*>> grid = {
@@ -87,7 +87,7 @@ struct KeyData {
   }
 
   std::vector<Key*> thumb_keys() {
-    return {&thumb_delete, &thumb_backspace, &thumb_ctrl, &thumb_alt, &thumb_home, &thumb_end};
+    return {&key_delete, &key_backspace, &key_ctrl, &key_alt, &key_home, &key_end};
   }
 
   std::vector<Key*> grid_keys() {
