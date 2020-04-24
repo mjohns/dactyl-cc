@@ -12,15 +12,23 @@ If you are interested in a smaller version see the [mini](https://github.com/mjo
 
 ![image](https://imgur.com/IP2UYYA.jpg)
 
+cmake is the preferred way to build and leads to the fastest recompilation times.
 ```
-// Build. Requires g++.
-./build.sh.
+cd build
+cmake ../src
+make && ./dactyl
+```
 
-// If changing files under util you must run a clean build.
-./build.sh --clean
+If you do not have cmake installed you can run the simple build script which just uses g++.
+```
+cd build
+./build_simple.sh
+```
 
-// To generate STL from command line:
-openscad -o things/left.stl out/left.scad
+You can generate an stl from the command line with the following command:
+```
+cd build
+openscad -o ../things/left.stl left.scad
 ```
 
 ![image](https://imgur.com/LvZQUT4.jpg)
