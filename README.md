@@ -12,7 +12,7 @@ If you are interested in a smaller version see the [mini](https://github.com/mjo
 
 ![image](https://imgur.com/IP2UYYA.jpg)
 
-cmake is the preferred way to build and leads to the fastest recompilation times.
+CMake is the preferred way to build and leads to the fastest recompilation times. You only need to run the cmake command once.
 ```
 cd build
 cmake ../src
