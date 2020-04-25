@@ -13,14 +13,14 @@ const glm::vec3 kOrigin(0, 0, 0);
 // translation is added.
 struct Transform {
  public:
-  float x = 0;
-  float y = 0;
-  float z = 0;
+  double x = 0;
+  double y = 0;
+  double z = 0;
 
   // Rotation in degrees
-  float rx = 0;
-  float ry = 0;
-  float rz = 0;
+  double rx = 0;
+  double ry = 0;
+  double rz = 0;
 
   Transform() {
   }
