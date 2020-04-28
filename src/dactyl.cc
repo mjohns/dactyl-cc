@@ -365,8 +365,8 @@ int main() {
   Shape result = UnionAll(shapes);
   // Subtracting is expensive to preview and is best to disable while testing.
   result = result.Subtract(UnionAll(negative_shapes));
-  result.WriteToFile("left.scad");
-  result.MirrorX().WriteToFile("right.scad");
+  result.WriteToFile("v1_left.scad");
+  result.MirrorX().WriteToFile("v1_right.scad");
 
   {
     double depth = 13;
@@ -400,8 +400,8 @@ int main() {
                              .Projection()
                              .LinearExtrude(1.5)
                              .Subtract(UnionAll(screw_holes));
-    bottom_plate.WriteToFile("bottom_plate_left.scad");
-    bottom_plate.MirrorX().WriteToFile("bottom_plate_right.scad");
+    bottom_plate.WriteToFile("v1_bottom_left.scad");
+    bottom_plate.MirrorX().WriteToFile("v1_bottom_right.scad");
   }
 
   return 0;
