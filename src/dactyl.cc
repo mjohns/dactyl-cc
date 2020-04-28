@@ -65,7 +65,7 @@ int main() {
   d.key_end.extra_width_left = 2;
 
   // left wall
-  for (Key* key : d.column(0)) {
+  for (Key* key : d.grid.column(0)) {
     if (key) {
       key->extra_width_left = 4;
     }
@@ -75,7 +75,7 @@ int main() {
   d.key_t.extra_width_right = 3;
   d.key_g.extra_width_right = 3;
 
-  for (Key* key : d.row(0)) {
+  for (Key* key : d.grid.row(0)) {
     // top row
     if (key) {
       key->extra_width_top = 2;
@@ -409,16 +409,16 @@ int main() {
 
 Shape ConnectMainKeys(KeyData& d) {
   std::vector<Shape> shapes;
-  for (int r = 0; r < d.num_rows(); ++r) {
-    for (int c = 0; c < d.num_columns(); ++c) {
-      Key* key = d.get_key(r, c);
+  for (int r = 0; r < d.grid.num_rows(); ++r) {
+    for (int c = 0; c < d.grid.num_columns(); ++c) {
+      Key* key = d.grid.get_key(r, c);
       if (!key) {
         // No key at this location.
         continue;
       }
-      Key* left = d.get_key(r, c - 1);
-      Key* top_left = d.get_key(r - 1, c - 1);
-      Key* top = d.get_key(r - 1, c);
+      Key* left = d.grid.get_key(r, c - 1);
+      Key* top_left = d.grid.get_key(r - 1, c - 1);
+      Key* top = d.grid.get_key(r - 1, c);
 
       if (left) {
         shapes.push_back(ConnectHorizontal(*left, *key));
