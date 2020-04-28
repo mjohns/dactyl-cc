@@ -84,16 +84,6 @@ Shape MakeDsaCap() {
   });
 }
 
-// Note: the dimensions don't seem 100% accurate.
-Shape MakeSaCapPretty() {
-  Shape c = Cylinder({.h = 33, .r1 = 33, .r2 = 33, .fn = 200, .center = false});
-  Shape cap = Intersection(c.Rotate(90, 0, 0).Translate(24, 16, 0),
-                           c.Rotate(90, 0, 90).Translate(-16, 24, 0),
-                           c.Rotate(90, 0, 180).Translate(-24, -16, 0),
-                           c.Rotate(90, 0, 270).Translate(16, -24, 0));
-  return Difference(cap, Sphere(33, 190).TranslateZ(46), Cube(66).TranslateZ(-31)).TranslateZ(-14);
-}
-
 Shape MakeSaCap() {
   return MakeCap({
       {kSaHeight / 2, kDsaBottomSize},
