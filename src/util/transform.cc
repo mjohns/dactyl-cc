@@ -11,9 +11,9 @@ namespace scad {
 glm::vec3 Transform::Apply(const glm::vec3& p) const {
   glm::mat4 transform(1.0f);
   transform = glm::translate(transform, translation());
-  transform = glm::rotate(transform, glm::radians(ry), glm::vec3(0, 1, 0));
-  transform = glm::rotate(transform, glm::radians(rx), glm::vec3(1, 0, 0));
-  transform = glm::rotate(transform, glm::radians(rz), glm::vec3(0, 0, 1));
+  transform = glm::rotate(transform, glm::radians((float)ry), glm::vec3(0, 1, 0));
+  transform = glm::rotate(transform, glm::radians((float)rx), glm::vec3(1, 0, 0));
+  transform = glm::rotate(transform, glm::radians((float)rz), glm::vec3(0, 0, 1));
 
   glm::vec4 transformed = transform * glm::vec4(p.x, p.y, p.z, 1);
   return glm::vec3(transformed.x, transformed.y, transformed.z);
