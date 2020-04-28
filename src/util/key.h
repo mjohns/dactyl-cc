@@ -126,6 +126,56 @@ struct Key {
   TransformList GetBottomLeftInternal() const;
 };
 
+struct KeyGrid {
+  explicit KeyGrid(std::vector<std::vector<Key*>> data) : data(std::move(data)) {
+  }
+
+  std::vector<Key*> column(int c) {
+    std::vector<Key*> result;
+    for (auto& row : data) {
+      result.push_back(row[c]);
+    }
+    return result;
+  }
+
+  std::vector<Key*> row(int r) {
+    return data[r];
+  }
+
+  Key* get_key(int row, int column) {
+    if (row < 0 || row >= num_rows()) {
+      return nullptr;
+    }
+    auto& r = data[row];
+    if (column < 0 || column >= r.size()) {
+      return nullptr;
+    }
+    return r[column];
+  }
+
+  std::vector<Key*> keys() {
+    std::vector<Key*> result;
+    for (auto& row : data) {
+      for (Key* key : row) {
+        if (key) {
+          result.push_back(key);
+        }
+      }
+    }
+    return result;
+  }
+
+  size_t num_columns() {
+    return data[0].size();
+  }
+
+  size_t num_rows() {
+    return data.size();
+  }
+
+  std::vector<std::vector<Key*>> data;
+};
+
 // Used to connect key corners together. It is thin so it can have width issues when the two
 // connectors being hulled don't have a large projection on one another. (keys close together with
 // vertical separation)
@@ -164,8 +214,8 @@ Shape TriFan(const TransformList& center,
              Shape connector = GetPostConnector());
 Shape TriFan(Shape center, const std::vector<Shape>& shapes);
 
-// Makes a triangle with every consecutive set of 3 transforms. TriHull would be the same as calling
-// this with 4 transforms.
+// Makes a triangle with every consecutive set of 3 transforms. TriHull would be the same as
+// calling this with 4 transforms.
 Shape TriMesh(const std::vector<TransformList>& transforms, Shape connector = GetPostConnector());
 Shape TriMesh(const std::vector<Shape>& shapes);
 

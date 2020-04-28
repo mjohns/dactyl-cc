@@ -50,56 +50,17 @@ struct KeyData {
   Key key_alt;
 
   // clang-format off
-  const std::vector<std::vector<Key*>> grid = {
+  KeyGrid grid {{
     { &key_plus,   &key_1,      &key_2,      &key_3,           &key_4,            &key_5},
     { &key_tab,    &key_q,      &key_w,      &key_e,           &key_r,            &key_t},
     { &key_caps,   &key_a,      &key_s,      &key_d,           &key_f,            &key_g},
     { &key_shift,  &key_z,      &key_x,      &key_c,           &key_v,            &key_b},
     { nullptr,     &key_tilde,  &key_slash,  &key_left_arrow,  &key_right_arrow,  nullptr},
-  };
+  }};
   // clang-format on
-
-  size_t num_columns() {
-    return grid[0].size();
-  }
-
-  size_t num_rows() {
-    return grid.size();
-  }
-
-  std::vector<Key*> column(int c) {
-    std::vector<Key*> keys;
-    for (auto& row : grid) {
-      keys.push_back(row[c]);
-    }
-    return keys;
-  }
-
-  std::vector<Key*> row(int r) {
-    return grid[r];
-  }
-
-  Key* get_key(int row, int column) {
-    if (row < 0 || row >= num_rows() || column < 0 || column >= num_columns()) {
-      return nullptr;
-    }
-    return grid[row][column];
-  }
 
   std::vector<Key*> thumb_keys() {
     return {&key_delete, &key_backspace, &key_ctrl, &key_alt, &key_home, &key_end};
-  }
-
-  std::vector<Key*> grid_keys() {
-    std::vector<Key*> keys;
-    for (auto& row : grid) {
-      for (Key* key : row) {
-        if (key != nullptr) {
-          keys.push_back(key);
-        }
-      }
-    }
-    return keys;
   }
 
   std::vector<Key*> all_keys() {
@@ -107,7 +68,7 @@ struct KeyData {
     for (Key* key : thumb_keys()) {
       keys.push_back(key);
     }
-    for (Key* key : grid_keys()) {
+    for (Key* key : grid.keys()) {
       keys.push_back(key);
     }
     return keys;
