@@ -15,6 +15,12 @@ constexpr bool kAddCaps = false;
 
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
+void AddShapes(std::vector<Shape>* shapes, std::vector<Shape> to_add) {
+  for (Shape s : to_add) {
+    shapes->push_back(s);
+  }
+}
+
 Shape ConnectMainKeys(KeyData& d);
 
 int main() {
@@ -294,12 +300,13 @@ int main() {
   }
 
   // Add all the screw inserts.
+  std::vector<Shape> screw_holes;
   {
     double screw_height = 5;
     double screw_radius = 4.4 / 2.0;
-    Shape screw_insert = Cylinder(screw_height, screw_radius + 1.65, 30)
-                             .Subtract(Cylinder(screw_height + 2, screw_radius, 30))
-                             .TranslateZ(screw_height / 2);
+    Shape screw_hole = Cylinder(screw_height + 2, screw_radius, 30);
+    Shape screw_insert =
+        Cylinder(screw_height, screw_radius + 1.65, 30).TranslateZ(screw_height / 2);
 
     glm::vec3 screw_left_bottom = d.key_shift.GetBottomLeft().Apply(kOrigin);
     screw_left_bottom.z = 0;
@@ -329,9 +336,17 @@ int main() {
                            screw_insert.Translate(screw_right_mid),
                            screw_insert.Translate(screw_right_bottom),
                            screw_insert.Translate(screw_left_bottom)));
+    screw_holes = {
+        screw_hole.Translate(screw_left_top),
+        screw_hole.Translate(screw_right_top),
+        screw_hole.Translate(screw_right_mid),
+        screw_hole.Translate(screw_right_bottom),
+        screw_hole.Translate(screw_left_bottom),
+    };
   }
 
   std::vector<Shape> negative_shapes;
+  AddShapes(&negative_shapes, screw_holes);
   // Cut off the parts sticking up into the thumb plate.
   negative_shapes.push_back(
       d.key_backspace.GetTopLeft().Apply(Cube(50, 50, 6).TranslateZ(3)).Color("red"));
@@ -352,6 +367,43 @@ int main() {
   result = result.Subtract(UnionAll(negative_shapes));
   result.WriteToFile("left.scad");
   result.MirrorX().WriteToFile("right.scad");
+
+  {
+    double depth = 13;
+    double width = 15;
+    double top_width = width;
+    double mid_width = 6;
+    double mid_height = 5.75;
+    // Height of the bottom plate on the trrs jack.
+    double bottom_plate_height = 2;
+
+    Shape bottom_plate =
+        Cube(width, 2, depth).TranslateY(-1 - bottom_plate_height).TranslateZ(depth / 2);
+    Shape bottom_face = Cube(width, 5, 2).Translate(0, -(5 / 2 + 3), 1);
+    Shape top_face = Cube(top_width, 5, 2).Translate(0, 5 / 2 + mid_height + 1, 1);
+
+    Shape top_plate = Cube(top_width, 2, depth).TranslateY(1 + mid_height).TranslateZ(depth / 2);
+    double back_height = mid_height + 6;
+    Shape back_plate = Cube(top_width, back_height, 2).Translate(0, back_height / 2 - 4, 1 + depth);
+
+    Union(top_face, bottom_plate, bottom_face, top_plate, back_plate).WriteToFile("trrs.scad");
+  }
+
+  // Bottom plate
+  {
+    std::vector<Shape> bottom_plate_shapes = {result};
+    for (Key* key : d.all_keys()) {
+      bottom_plate_shapes.push_back(Hull(key->GetSwitch()));
+    }
+
+    Shape bottom_plate = UnionAll(bottom_plate_shapes)
+                             .Projection()
+                             .LinearExtrude(1.5)
+                             .Subtract(UnionAll(screw_holes));
+    bottom_plate.WriteToFile("bottom_plate_left.scad");
+    bottom_plate.MirrorX().WriteToFile("bottom_plate_right.scad");
+  }
+
   return 0;
 }
 
