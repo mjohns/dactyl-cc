@@ -10,7 +10,7 @@ The dactyl-cc keyboard takes a different approach to the structure of the code (
 
 If you are interested in a smaller version see the [mini](https://github.com/mjohns/dactyl-cc-mini) version.
 
-![image](https://imgur.com/IP2UYYA.jpg)
+![image](https://imgur.com/CUbPLZC.jpg)
 
 CMake is the preferred way to build and leads to the fastest recompilation times. You only need to run the cmake command once.
 ```
@@ -28,8 +28,11 @@ cd build
 You can generate an stl from the command line with the following command:
 ```
 cd build
-openscad -o ../things/left.stl left.scad
+openscad -o ../things/v1_left.stl v1_left.scad
 ```
 
+![image](https://imgur.com/IP2UYYA.jpg)
 ![image](https://imgur.com/LvZQUT4.jpg)
 ![image](https://imgur.com/0AYtoey.jpg)
+
+[other images](https://imgur.com/a/jBbUXNx)
