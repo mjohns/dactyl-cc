@@ -370,7 +370,7 @@ int main() {
 
   {
     double depth = 13;
-    double width = 15;
+    double width = 10;
     double top_width = width;
     double mid_width = 6;
     double mid_height = 5.75;
@@ -387,6 +387,34 @@ int main() {
     Shape back_plate = Cube(top_width, back_height, 2).Translate(0, back_height / 2 - 4, 1 + depth);
 
     Union(top_face, bottom_plate, bottom_face, top_plate, back_plate).WriteToFile("trrs.scad");
+  }
+
+  {
+    // trrs front plate
+    double inner_radius = 9.8 / 2;
+    double width = 3;
+    double depth = 1;
+    double fn = 20;
+
+    Circle(inner_radius + width, fn)
+        .Subtract(Circle(inner_radius, fn))
+        .LinearExtrude(depth)
+        .WriteToFile("trrs_front.scad");
+    Square(13).LinearExtrude(depth).WriteToFile("cover.scad");
+  }
+
+  {
+    // usbc adapter
+    double width = 11.8;
+    double height = 7.4;
+
+    double thickness = 4;
+    double depth = 7;
+
+    Square(11.8 + thickness * 2, 7.4 + thickness * 2)
+        .Subtract(Square(11.8, 7.4))
+        .LinearExtrude(depth)
+        .WriteToFile("usbc.scad");
   }
 
   // Bottom plate
