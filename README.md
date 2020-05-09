@@ -10,6 +10,8 @@ The dactyl-cc keyboard takes a different approach to the structure of the code (
 
 If you are interested in a smaller version see the [mini](https://github.com/mjohns/dactyl-cc-mini) version.
 
+If you are interested in building it you can take a look at the [guide](guide/README.md). Any dactyl build guide you choose should work.
+
 ![image](https://imgur.com/CUbPLZC.jpg)
 
 CMake is the preferred way to build and leads to the fastest recompilation times. You only need to run the cmake command once.
