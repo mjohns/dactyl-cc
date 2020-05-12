@@ -8,6 +8,12 @@ I would suggest being mindful of what your soldering iron is touching because it
 melting the side of the case (from personal experience). You can also solder on the diode and a stretch of wire before putting
 the switch in but that turned out to be more trouble than it was worth.
 
+
+
 The most important parts of the guide are the following two images which you will refer to quite often:
 ![](dactyl-circuit-diagram.png)
 ![](dactyl-keymapping.png)
+
+I think Amoeba PCBs should fit but it is a close call. I was able to get one in the tightest corner but you have to angle it very carefully to get it over the pins.
+
+![](amoeba-corner.jpg)
