@@ -41,6 +41,13 @@ Loligagger's external holder files:
 * [Promicro V2](https://dactyl.siskam.link/loligagger-external-holder-promicro-v2.stl)
 * [Elite-C V1](https://dactyl.siskam.link/loligagger-external-holder-elite-c-v1.stl)
 
+v2 changes:
+* Smoothed out back walls and walls around thumb cluster.
+* Merged https://github.com/cykedev/dactyl-cc for external holder.
+* Adjusted 'g' colum rotation from 10 to 4 degrees.
+
+v1 stl files are archived in the things folder. The source code can be viewed on the v1 git branch.
+
 ![image](https://imgur.com/IP2UYYA.jpg)
 ![image](https://imgur.com/LvZQUT4.jpg)
 ![image](https://imgur.com/0AYtoey.jpg)
