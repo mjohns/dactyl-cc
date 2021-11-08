@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "Building"
 g++ -std=c++17 ../src/*.cc ../src/util/*.cc -I../src -I../src/util -o dactyl

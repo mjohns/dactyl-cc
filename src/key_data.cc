@@ -145,8 +145,8 @@ KeyData::KeyData(TransformList key_origin) {
     // k.t().ry = -30;
 
     k.SetParent(key_f);
-    k.SetPosition(18.65, -1.310, 3.305);
-    k.t().ry = -10;
+    k.SetPosition(20, -1.310, 3.305);
+    k.t().ry = -4;
   });
 
   key_s.Configure([&](Key& k) {
@@ -271,8 +271,6 @@ KeyData::KeyData(TransformList key_origin) {
   key_5.Configure([&](Key& k) {
     k.name = "5";
     k.SetParent(key_t);
-    // 5 hits 4 a little.
-    k.t().x = 1.5;
   });
 
   key_b = GetRotatedKey(kGColumnRadius, false);

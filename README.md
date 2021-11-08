@@ -1,4 +1,4 @@
-# Dactyl CC Keyboard
+#Dactyl CC Keyboard
 
 This keyboard and associated libraries take heavy inspiration from the
  [dactyl](https://github.com/adereth/dactyl-keyboard) and
@@ -10,15 +10,14 @@ The dactyl-cc keyboard takes a different approach to the structure of the code (
 
 If you are interested in a smaller version see the [mini](https://github.com/mjohns/dactyl-cc-mini) version.
 
-If you are interested in building it you can take a look at the [guide](guide/README.md). Any dactyl build guide you choose should work.
+If you are interested in building it you can take a look at the [guide](guide/README.md). Any dactyl build guide you choose should work like [this one.](https://medium.com/swlh/complete-idiot-guide-for-building-a-dactyl-manuform-keyboard-53454845b065)
 
 ![image](https://imgur.com/CUbPLZC.jpg)
 
-CMake is the preferred way to build and leads to the fastest recompilation times. You only need to run the cmake command once.
+CMake is the preferred way to build and leads to the fastest recompilation times.
 ```
 cd build
-cmake ../src
-make && ./dactyl
+./build.sh
 ```
 
 If you do not have cmake installed you can run the simple build script which just uses g++.
@@ -30,8 +29,17 @@ cd build
 You can generate an stl from the command line with the following command:
 ```
 cd build
-openscad -o ../things/v1_left.stl v1_left.scad
+// openscad -o ../things/left.stl left.scad
+make_things.sh
 ```
+
+The external holder cutout design is taken from https://github.com/cykedev/dactyl-cc and is designed to for loligagger's external holder.
+
+Loligagger's external holder files:
+
+* [Promicro V1](https://dactyl.siskam.link/loligagger-external-holder-promicro-v1.stl)
+* [Promicro V2](https://dactyl.siskam.link/loligagger-external-holder-promicro-v2.stl)
+* [Elite-C V1](https://dactyl.siskam.link/loligagger-external-holder-elite-c-v1.stl)
 
 ![image](https://imgur.com/IP2UYYA.jpg)
 ![image](https://imgur.com/LvZQUT4.jpg)
