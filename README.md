@@ -1,4 +1,4 @@
-#Dactyl CC Keyboard
+# Dactyl CC Keyboard
 
 This keyboard and associated libraries take heavy inspiration from the
  [dactyl](https://github.com/adereth/dactyl-keyboard) and
