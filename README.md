@@ -37,9 +37,9 @@ The external holder cutout design is taken from https://github.com/cykedev/dacty
 
 Loligagger's external holder files:
 
-* [Promicro V1](https://dactyl.siskam.link/loligagger-external-holder-promicro-v1.stl)
-* [Promicro V2](https://dactyl.siskam.link/loligagger-external-holder-promicro-v2.stl)
-* [Elite-C V1](https://dactyl.siskam.link/loligagger-external-holder-elite-c-v1.stl)
+* [Promicro V1](https://web.archive.org/web/20220607031919/https://dactyl.siskam.link/loligagger-external-holder-promicro-v1.stl)
+* [Promicro V2](https://web.archive.org/web/20220607031910/https://dactyl.siskam.link/loligagger-external-holder-promicro-v2.stl)
+* [Elite-C V1](https://web.archive.org/web/20220607031927/https://dactyl.siskam.link/loligagger-external-holder-elite-c-v1.stl)
 
 v2 changes:
 * Smoothed out back walls and walls around thumb cluster.
